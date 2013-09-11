@@ -1,17 +1,69 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>ExoVis</title>
-  <style>
-    body {
-      background-color: #ffffff;
-      margin: 0;
-      overflow: hidden;
-    }
-  </style>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>ExoVis</title>
+    <style>
+      body {
+        background-color: #ffffff;
+        margin: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <!-- following script enables LiveReload -->
+  <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+  <body>
+    <script src="Lib/three.js"></script>
+    <script src="Lib/cannon.js"></script>
+    <script>
+      var renderer, scene, camera;
+      var mesh;
+
+      //Cannon's version of 'scene'
+      var world;
+
+      var init = function(){
+
+        renderer = new THREE.WebGLRenderer();
+        renderer.setClearColor(0x000000, 1.0);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+
+        // new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
+        camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
+        camera.position.z = 5;
+
+        var geometry = new THREE.SphereGeometry(1);
+        var material = new THREE.MeshBasicMaterial({wireframe:true});
+
+        world = new CANNON.World();
+        world.broadphase = new CANNON.NaiveBroadphase();
+        world.gravity.set(0. -15, 0); //change for planetary system
+
+        mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        var sphereShape = new CANNON.Sphere(1);
+        var sphereMaterial = new CANNON.Material();
+        var sphereBody = new CANNON.RigidBody(0.1, sphereShape, sphereMaterial);
+      };
+
+      var animate = function(){
+
+        requestAnimationFrame(animate);
+        mesh.rotation.x +=0;
+        mesh.rotation.y += 0.01;
+        world.step(1/60);
+        renderer.render( scene, camera);
+
+      };
+
+      init();
+      animate();
+
+    </script>
+  </body>
 </html>
