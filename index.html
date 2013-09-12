@@ -48,6 +48,8 @@
     controls.staticMoving = true;
     controls.dynamicDampingFactor = 0.3;
 
+    //adds functions in conjuction with mouse click:
+    // A = rotate, S = zoom, D = pan
     controls.keys = [ 65, 83, 68 ];
 
     controls.addEventListener( 'change', render );
@@ -77,8 +79,8 @@
       speed = 1;
     function animate() {
       requestAnimationFrame(animate);
-      renderer.render(scene, camera);
       controls.update();
+      render();
 
       time = time + speed;
       var p1_angle = time * 0.01,
