@@ -19,7 +19,7 @@
     <script>
     // Create a WebGLRenderer
     var renderer = new THREE.WebGLRenderer({antialias: true});
-    renderer.setSize(window.innerWidth,window.innerWidth);
+    renderer.setSize(window.innerWidth, window.innerWidth);
 
     document.body.appendChild(renderer.domElement);
 
@@ -27,8 +27,8 @@
     renderer.clear();
 
     // args sig - new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
-    var camera = new THREE.PerspectiveCamera(45, document.body.clientWidth/document.body.clientHeight, 1, 10000);
-    camera.position.z = 300;
+    var camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 100000);
+    camera.position.z = 1500;
 
     var scene = new THREE.Scene();
 
@@ -38,23 +38,23 @@
 
     var starlight = new THREE.PointLight(0xffffff, 10, 1000);
 
-    var star = new THREE.Mesh(new THREE.SphereGeometry(8, 16, 16),
-      new THREE.MeshBasicMaterial({color: 0xFFCC11}));
+    var star = new THREE.Mesh(new THREE.SphereGeometry(50, 20, 20),
+      new THREE.MeshPhongMaterial({ambient: 0xFFCC11}));
     scene.add(star);
     star.add(starlight);
 
-    var planet1 = new THREE.Mesh(new THREE.SphereGeometry(2, 8, 8),
-      new THREE.MeshBasicMaterial({color: 0xAADD00}));
+    var planet1 = new THREE.Mesh(new THREE.SphereGeometry(15, 20, 16),
+      new THREE.MeshPhongMaterial({color: 0xAADD00, ambient: 0x1a1a1a}));
     planet1.position.set(50,0,0);
     scene.add(planet1);
 
-    var planet2 = new THREE.Mesh(new THREE.SphereGeometry(4, 8, 8),
-      new THREE.MeshBasicMaterial({color: 0xCD5555}));
+    var planet2 = new THREE.Mesh(new THREE.SphereGeometry(25, 20, 16),
+      new THREE.MeshPhongMaterial({color: 0xCD5555, ambient: 0x1a1a1a}));
     planet2.position.set(-100,0,0);
     scene.add(planet2);
 
     var time = 0,
-    speed = 1;
+      speed = 1;
 
     function animate() {
       requestAnimationFrame(animate);
@@ -63,8 +63,8 @@
       time = time + speed;
       var p1_angle = time * 0.01,
       p2_angle = time * 0.004;
-      planet1.position.set(50* Math.cos(p1_angle), 50*Math.sin(p1_angle), 0);
-      planet2.position.set(100* Math.cos(p2_angle), 100*Math.sin(p2_angle), 0);
+      planet1.position.set(200* Math.cos(p1_angle), 200*Math.sin(p1_angle), 0);
+      planet2.position.set(350* Math.cos(p2_angle), 350*Math.sin(p2_angle), 0);
     }
 
     animate();
