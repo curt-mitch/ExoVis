@@ -16,6 +16,7 @@
   </script>
   <body>
     <script src="Lib/three.js"></script>
+    <script src="Lib/TrackballControls.js"></script>
     <script>
     // Create a WebGLRenderer
     var renderer = new THREE.WebGLRenderer({antialias: true});
@@ -26,11 +27,30 @@
     renderer.setClearColor(0x000000, 1.0);
     renderer.clear();
 
+    var scene = new THREE.Scene();
+
     // args sig - new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
-    var camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 100000);
+    var camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
+    // camera.position.set = (-500,1000,1500);
+    // camera.lookAt(scene.position);
     camera.position.z = 1500;
 
-    var scene = new THREE.Scene();
+    //controls for camera angle
+    controls = new THREE.TrackballControls(camera);
+
+    controls.rotateSpeed = 1.0;
+    controls.zoomSpeed = 1.2;
+    controls.panSpeed = 0.8;
+
+    controls.noZoom = false;
+    controls.noPan = false;
+
+    controls.staticMoving = true;
+    controls.dynamicDampingFactor = 0.3;
+
+    controls.keys = [ 65, 83, 68 ];
+
+    controls.addEventListener( 'change', render );
 
     //add lighting sources
     var ambient = new THREE.AmbientLight(0xffffff);
@@ -55,10 +75,10 @@
 
     var time = 0,
       speed = 1;
-
     function animate() {
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
+      controls.update();
 
       time = time + speed;
       var p1_angle = time * 0.01,
@@ -68,6 +88,10 @@
     }
 
     animate();
+
+    function render() {
+        renderer.render( scene, camera );
+    }
 
     </script>
   </body>
