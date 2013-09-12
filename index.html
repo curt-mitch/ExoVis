@@ -12,57 +12,62 @@
     </style>
   </head>
   <!-- following script enables LiveReload -->
-  <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+  <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
+  </script>
   <body>
     <script src="Lib/three.js"></script>
-    <script src="Lib/cannon.js"></script>
     <script>
-      var renderer, scene, camera;
-      var mesh;
+    // Create a WebGLRenderer
+    var renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer.setSize(window.innerWidth,window.innerWidth);
 
-      //Cannon's version of 'scene'
-      var world;
+    document.body.appendChild(renderer.domElement);
 
-      var init = function(){
+    renderer.setClearColor(0x000000, 1.0);
+    renderer.clear();
 
-        renderer = new THREE.WebGLRenderer();
-        renderer.setClearColor(0x000000, 1.0);
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+    // args sig - new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
+    var camera = new THREE.PerspectiveCamera(45, document.body.clientWidth/document.body.clientHeight, 1, 10000);
+    camera.position.z = 300;
 
-        scene = new THREE.Scene();
+    var scene = new THREE.Scene();
 
-        // new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
-        camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
-        camera.position.z = 5;
+    //add lighting sources
+    var ambient = new THREE.AmbientLight(0xffffff);
+    scene.add(ambient);
 
-        var geometry = new THREE.SphereGeometry(1);
-        var material = new THREE.MeshBasicMaterial({wireframe:true});
+    var starlight = new THREE.PointLight(0xffffff, 10, 1000);
 
-        world = new CANNON.World();
-        world.broadphase = new CANNON.NaiveBroadphase();
-        world.gravity.set(0. -15, 0); //change for planetary system
+    var star = new THREE.Mesh(new THREE.SphereGeometry(8, 16, 16),
+      new THREE.MeshBasicMaterial({color: 0xFFCC11}));
+    scene.add(star);
+    star.add(starlight);
 
-        mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
+    var planet1 = new THREE.Mesh(new THREE.SphereGeometry(2, 8, 8),
+      new THREE.MeshBasicMaterial({color: 0xAADD00}));
+    planet1.position.set(50,0,0);
+    scene.add(planet1);
 
-        var sphereShape = new CANNON.Sphere(1);
-        var sphereMaterial = new CANNON.Material();
-        var sphereBody = new CANNON.RigidBody(0.1, sphereShape, sphereMaterial);
-      };
+    var planet2 = new THREE.Mesh(new THREE.SphereGeometry(4, 8, 8),
+      new THREE.MeshBasicMaterial({color: 0xCD5555}));
+    planet2.position.set(-100,0,0);
+    scene.add(planet2);
 
-      var animate = function(){
+    var time = 0,
+    speed = 1;
 
-        requestAnimationFrame(animate);
-        mesh.rotation.x +=0;
-        mesh.rotation.y += 0.01;
-        world.step(1/60);
-        renderer.render( scene, camera);
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
 
-      };
+      time = time + speed;
+      var p1_angle = time * 0.01,
+      p2_angle = time * 0.004;
+      planet1.position.set(50* Math.cos(p1_angle), 50*Math.sin(p1_angle), 0);
+      planet2.position.set(100* Math.cos(p2_angle), 100*Math.sin(p2_angle), 0);
+    }
 
-      init();
-      animate();
+    animate();
 
     </script>
   </body>
