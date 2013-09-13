@@ -27,11 +27,43 @@
     renderer.setClearColor(0x000000, 1.0);
     renderer.clear();
 
+    // SCENE
     var scene = new THREE.Scene();
+    var sceneCube = new THREE.Scene();
 
+    // CAMERA
     // args sig -> new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
     var camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
     camera.position.z = 1500;
+    var cameraCube = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
+
+    //add skybox
+    function addSkybox() {
+      var urlPrefix = "textures/skybox/Purple_Nebula_";
+      var urls = [
+        urlPrefix + "right1.png", urlPrefix + "left2.png",
+        urlPrefix + "top3.png", urlPrefix + "bottom4.png",
+        urlPrefix + "front5.png", urlPrefix + "back6.png"
+      ];
+
+      THREE.ImageUtils.loadTextureCube(urls, {}, function(textureCube){
+        textureCube.format = THREE.RGBFormat;
+        var shader = THREE.ShaderLib.cube;
+
+        var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
+        uniforms.tCube.value = textureCube;
+        var material = new THREE.ShaderMaterial({
+          fragmentShader: shader.fragmentShader,
+          vertexShader: shader.vertexShader,
+          uniforms: uniforms,
+          side: THREE.Backside
+        });
+
+        skyboxMesh = new THREE.Mesh(new THREE.CubeGeometry(200000, 200000, 200000, 1, 1, 1, null, true), material);
+        sceneCube.add(skyboxMesh);
+      });
+    };
+    addSkybox();
 
     //controls for camera angle
     controls = new THREE.TrackballControls(camera);
@@ -90,7 +122,10 @@
     animate();
 
     function render() {
-        renderer.render( scene, camera );
+
+      cameraCube.rotation.copy(camera.rotation);
+      renderer.render(sceneCube, cameraCube)
+      renderer.render(scene, camera );
     }
 
     </script>
