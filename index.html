@@ -29,10 +29,8 @@
 
     var scene = new THREE.Scene();
 
-    // args sig - new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
+    // args sig -> new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
     var camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
-    // camera.position.set = (-500,1000,1500);
-    // camera.lookAt(scene.position);
     camera.position.z = 1500;
 
     //controls for camera angle
@@ -50,7 +48,7 @@
 
     //adds functions in conjuction with mouse click:
     // A = rotate, S = zoom, D = pan
-    controls.keys = [ 65, 83, 68 ];
+    controls.keys = [65, 83, 68];
 
     controls.addEventListener( 'change', render );
 
@@ -60,7 +58,7 @@
 
     var starlight = new THREE.PointLight(0xffffff, 10, 1000);
 
-    var star = new THREE.Mesh(new THREE.SphereGeometry(50, 20, 20),
+    var star = new THREE.Mesh(new THREE.SphereGeometry(50, 30, 30),
       new THREE.MeshPhongMaterial({ambient: 0xFFCC11}));
     scene.add(star);
     star.add(starlight);
