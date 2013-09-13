@@ -39,20 +39,20 @@
     var cameraCube = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
 
     //add skybox
-    var urlPrefix = "textures/skybox/Purple_Nebula_";
+    var urlPrefix = "textures/skybox/";
     var urls = [
-      urlPrefix + "right1.png", urlPrefix + "left2.png",
-      urlPrefix + "top3.png", urlPrefix + "bottom4.png",
-      urlPrefix + "front5.png", urlPrefix + "back6.png"
+      urlPrefix + "pos-x.png", urlPrefix + "neg-x.png",
+      urlPrefix + "pos-y.png", urlPrefix + "neg-y.png",
+      urlPrefix + "pos-z.png", urlPrefix + "neg-z.png"
     ];
 
     var cubemap = THREE.ImageUtils.loadTextureCube(urls); // load textures
-      cubemap.format = THREE.RGBFormat;
+    cubemap.format = THREE.RGBFormat;
 
     var shader = THREE.ShaderLib['cube']; // init cube shader from built-in lib
     shader.uniforms['tCube'].value = cubemap; // apply textures to shader
 
-    // create skybox shader material
+// create shader material
     var skyBoxMaterial = new THREE.ShaderMaterial( {
       fragmentShader: shader.fragmentShader,
       vertexShader: shader.vertexShader,
@@ -61,7 +61,7 @@
       side: THREE.BackSide
     });
 
-    // create skybox mesh
+// create skybox mesh
     var skybox = new THREE.Mesh(
       new THREE.CubeGeometry(10000, 10000, 10000),
       skyBoxMaterial
