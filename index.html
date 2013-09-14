@@ -18,6 +18,7 @@
     <script src="js/lib/three.js"></script>
     <script src="js/lib/TrackballControls.js"></script>
     <script src="js/lib/jquery.js"></script>
+    <script src="js/src/animate.js"></script>
     <script src="js/src/render.js"></script>
     <script src="js/src/skybox.js"></script>
     <script>
@@ -59,7 +60,7 @@
     // A = rotate, S = zoom, D = pan
     controls.keys = [65, 83, 68];
 
-    controls.addEventListener( 'change', render );
+    controls.addEventListener('change', render);
 
     //add lighting sources
     var ambient = new THREE.AmbientLight(0xffffff);
@@ -81,20 +82,6 @@
       new THREE.MeshPhongMaterial({color: 0xCD5555, ambient: 0x1a1a1a}));
     planet2.position.set(-100,0,0);
     scene.add(planet2);
-
-    var time = 0,
-      speed = 1;
-    function animate() {
-      requestAnimationFrame(animate);
-      controls.update();
-      render();
-
-      time = time + speed;
-      var p1_angle = time * 0.01,
-      p2_angle = time * 0.004;
-      planet1.position.set(200* Math.cos(p1_angle), 200*Math.sin(p1_angle), 0);
-      planet2.position.set(350* Math.cos(p2_angle), 350*Math.sin(p2_angle), 0);
-    }
 
     animate();
 
