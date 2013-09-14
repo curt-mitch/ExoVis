@@ -1,11 +1,10 @@
 {
   "name": "ExoVis",
-  "main": "main.js",
+  "main": "index.js",
   "version": "0.0.0",
   "description": "Visualization of exoplanetary systems",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +17,7 @@
   },
   "devDependencies": {
     "grunt-cli": "0.1.x",
-    "grunt": "0.4.x",
+    "grunt": "~0.4.1",
     "grunt-contrib-clean": "0.5.x",
     "grunt-contrib-concat": "0.3.x",
     "grunt-contrib-copy": "0.4.x",
@@ -45,8 +44,5 @@
     "path": "~0.4.9",
     "nib": "~1.0.1",
     "mongoose": "~3.6.19"
-  },
-  "scripts": {
-    "start": "node app.js"
   }
 }
