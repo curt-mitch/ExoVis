@@ -39,6 +39,14 @@
     "ExoVis",
     "webgl",
     "threejs"
-  ]
-
+  ],
+  "dependencies": {
+    "express": "~3.3.5",
+    "path": "~0.4.9",
+    "nib": "~1.0.1",
+    "mongoose": "~3.6.19"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
 }
