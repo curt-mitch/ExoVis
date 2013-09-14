@@ -1,5 +1,6 @@
 {
-  "name": "Exoplanet-Project",
+  "name": "ExoVis",
+  "main": "main.js",
   "version": "0.0.0",
   "description": "Visualization of exoplanetary systems",
   "main": "index.js",
@@ -14,5 +15,30 @@
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/curt-mitch/ExoVis/issues"
-  }
+  },
+  "devDependencies": {
+    "grunt-cli": "0.1.x",
+    "grunt": "0.4.x",
+    "grunt-contrib-clean": "0.5.x",
+    "grunt-contrib-concat": "0.3.x",
+    "grunt-contrib-copy": "0.4.x",
+    "grunt-contrib-watch": "0.3.x",
+    "grunt-contrib-uglify": "0.2.x",
+    "grunt-contrib-jshint": "0.4.x",
+    "grunt-contrib-stylus": "0.7.x",
+    "grunt-nodemon": "~0.1.0",
+    "grunt-concurrent": "~0.3.0",
+    "grunt-open": "~0.2.2",
+    "grunt-browserify": "~1.2.4"
+  },
+  "engines": {
+    "node": "0.10.18",
+    "npm": "1.1.x"
+  },
+  "keywords": [
+    "ExoVis",
+    "webgl",
+    "threejs"
+  ]
+
 }
