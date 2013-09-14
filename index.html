@@ -18,6 +18,7 @@
     <script src="js/lib/three.js"></script>
     <script src="js/lib/TrackballControls.js"></script>
     <script src="js/lib/jquery.js"></script>
+    <script src="js/src/skybox.js"></script>
     <script>
     // Create a WebGLRenderer
     var renderer = new THREE.WebGLRenderer({antialias: true});
@@ -31,6 +32,7 @@
     // SCENE
     var scene = new THREE.Scene();
     var sceneCube = new THREE.Scene(); //this is a scene rendered specifically for the skybox
+    scene.add(skybox);
 
     // CAMERA
     // args sig -> new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
@@ -38,37 +40,6 @@
     camera.position.z = 1500;
     // camera dedicated to skybox
     var cameraCube = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
-
-    //add skybox
-    var urlPrefix = "textures/skybox/";
-    var urls = [
-      urlPrefix + "pos-x.png", urlPrefix + "neg-x.png",
-      urlPrefix + "pos-y.png", urlPrefix + "neg-y.png",
-      urlPrefix + "pos-z.png", urlPrefix + "neg-z.png"
-    ];
-
-    var cubemap = THREE.ImageUtils.loadTextureCube(urls); // load textures
-    cubemap.format = THREE.RGBFormat;
-
-    var shader = THREE.ShaderLib['cube']; // init cube shader from built-in lib
-    shader.uniforms['tCube'].value = cubemap; // apply textures to shader
-
-// create shader material
-    var skyBoxMaterial = new THREE.ShaderMaterial( {
-      fragmentShader: shader.fragmentShader,
-      vertexShader: shader.vertexShader,
-      uniforms: shader.uniforms,
-      depthWrite: false,
-      side: THREE.BackSide
-    }); 
-
-// create skybox mesh
-    var skybox = new THREE.Mesh(
-      new THREE.CubeGeometry(10000, 10000, 10000),
-      skyBoxMaterial
-    );
-
-    scene.add(skybox);
 
     //controls for camera angle
     controls = new THREE.TrackballControls(camera);
