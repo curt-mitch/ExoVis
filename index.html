@@ -18,6 +18,7 @@
     <script src="js/lib/three.js"></script>
     <script src="js/lib/TrackballControls.js"></script>
     <script src="js/lib/jquery.js"></script>
+    <script src="js/src/render.js"></script>
     <script src="js/src/skybox.js"></script>
     <script>
     // Create a WebGLRenderer
@@ -96,13 +97,6 @@
     }
 
     animate();
-
-    function render() {
-
-      cameraCube.rotation.copy(camera.rotation); // ties skybox camera to regular camera
-      renderer.render(sceneCube, cameraCube)
-      renderer.render(scene, camera );
-    }
 
     </script>
   </body>
