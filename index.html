@@ -18,30 +18,17 @@
     <script src="js/lib/three.js"></script>
     <script src="js/lib/TrackballControls.js"></script>
     <script src="js/lib/jquery.js"></script>
+    <script src="js/src/renderer.js"></script>
+    <script src="js/src/cameras.js"></script>
     <script src="js/src/animate.js"></script>
     <script src="js/src/render.js"></script>
     <script src="js/src/skybox.js"></script>
     <script>
-    // Create a WebGLRenderer
-    var renderer = new THREE.WebGLRenderer({antialias: true});
-    renderer.setSize(window.innerWidth, window.innerWidth);
-
-    document.body.appendChild(renderer.domElement);
-
-    renderer.setClearColor(0x000000, 1.0);
-    renderer.clear();
 
     // SCENE
     var scene = new THREE.Scene();
     var sceneCube = new THREE.Scene(); //this is a scene rendered specifically for the skybox
     scene.add(skybox);
-
-    // CAMERA
-    // args sig -> new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
-    var camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
-    camera.position.z = 1500;
-    // camera dedicated to skybox
-    var cameraCube = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
 
     //controls for camera angle
     controls = new THREE.TrackballControls(camera);
