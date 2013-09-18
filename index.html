@@ -18,60 +18,7 @@
     <script src="js/lib/three.js"></script>
     <script src="js/lib/TrackballControls.js"></script>
     <script src="js/lib/jquery.js"></script>
-    <script src="js/src/renderer.js"></script>
-    <script src="js/src/cameras.js"></script>
-    <script src="js/src/animate.js"></script>
-    <script src="js/src/render.js"></script>
-    <script src="js/src/skybox.js"></script>
-    <script>
+    <script src="bundle.js"></script>
 
-    // SCENE
-    var scene = new THREE.Scene();
-    var sceneCube = new THREE.Scene(); //this is a scene rendered specifically for the skybox
-    scene.add(skybox);
-
-    //controls for camera angle
-    controls = new THREE.TrackballControls(camera);
-
-    controls.rotateSpeed = 1.0;
-    controls.zoomSpeed = 1.2;
-    controls.panSpeed = 0.8;
-
-    controls.noZoom = false;
-    controls.noPan = false;
-
-    controls.staticMoving = true;
-    controls.dynamicDampingFactor = 0.3;
-
-    //adds functions in conjuction with mouse click:
-    // A = rotate, S = zoom, D = pan
-    controls.keys = [65, 83, 68];
-
-    controls.addEventListener('change', render);
-
-    //add lighting sources
-    var ambient = new THREE.AmbientLight(0xffffff);
-    scene.add(ambient);
-
-    var starlight = new THREE.PointLight(0xffffff, 10, 1000);
-
-    var star = new THREE.Mesh(new THREE.SphereGeometry(50, 30, 30),
-      new THREE.MeshPhongMaterial({ambient: 0xFFCC11}));
-    scene.add(star);
-    star.add(starlight);
-
-    var planet1 = new THREE.Mesh(new THREE.SphereGeometry(15, 20, 16),
-      new THREE.MeshPhongMaterial({color: 0xAADD00, ambient: 0x1a1a1a}));
-    planet1.position.set(50,0,0);
-    scene.add(planet1);
-
-    var planet2 = new THREE.Mesh(new THREE.SphereGeometry(25, 20, 16),
-      new THREE.MeshPhongMaterial({color: 0xCD5555, ambient: 0x1a1a1a}));
-    planet2.position.set(-100,0,0);
-    scene.add(planet2);
-
-    animate();
-
-    </script>
   </body>
 </html>
