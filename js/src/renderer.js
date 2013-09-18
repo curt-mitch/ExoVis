@@ -6,3 +6,5 @@ document.body.appendChild(renderer.domElement);
 
 renderer.setClearColor(0x000000, 1.0);
 renderer.clear();
+
+module.exports = renderer;
