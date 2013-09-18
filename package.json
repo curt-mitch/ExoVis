@@ -1,6 +1,6 @@
 {
   "name": "ExoVis",
-  "main": "index.js",
+  "main": "main.js",
   "version": "0.0.0",
   "description": "Visualization of exoplanetary systems",
   "scripts": {
