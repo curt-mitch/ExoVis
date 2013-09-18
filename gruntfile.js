@@ -4,7 +4,7 @@ module.exports = function(grunt){
     browserify: {
       dist: {
         files: {
-          'module.js': ['js/src/*.js']
+          'bundle.js': ['js/src/*.js']
         }
       }
     },
@@ -13,7 +13,9 @@ module.exports = function(grunt){
       tasks: ['browserify']
     }
   });
-};
 
-grunt.loadNpmTasks('grunt-browserify');
-grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.registerTask('default', ['watch']);
+
+};
