@@ -9,6 +9,10 @@
         margin: 0;
         overflow: hidden;
       }
+      #container {
+        display: inline-block;
+        position: relative;
+      }
     </style>
   </head>
   <!-- following script enables LiveReload -->
@@ -18,7 +22,8 @@
     <script src="js/lib/three.js"></script>
     <script src="js/lib/TrackballControls.js"></script>
     <script src="js/lib/jquery.js"></script>
+    <div id="container"
+      style="width:1024px; height:1024px"></div>
     <script src="bundle.js"></script>
-
   </body>
 </html>
