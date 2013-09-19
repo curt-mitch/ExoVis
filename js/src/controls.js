@@ -19,3 +19,5 @@ controls.dynamicDampingFactor = 0.3;
 controls.keys = [65, 83, 68];
 
 controls.addEventListener('change', render);
+
+module.exports = controls;
