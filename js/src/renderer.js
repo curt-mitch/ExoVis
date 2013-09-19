@@ -1,8 +1,9 @@
 // Create a WebGLRenderer
 var renderer = new THREE.WebGLRenderer({antialias: true});
-renderer.setSize(window.innerWidth, window.innerWidth);
+var container = document.getElementById("container"); //grab DOM element
+renderer.setSize(container.offsetWidth, container.offsetHeight);
 
-document.body.appendChild(renderer.domElement);
+container.appendChild(renderer.domElement);
 
 renderer.setClearColor(0x000000, 1.0);
 renderer.clear();
