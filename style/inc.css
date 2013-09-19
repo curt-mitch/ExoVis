@@ -1,2 +1,9 @@
-body{background-color:#fff;margin:0;overflow:hidden}
-#container{display:inline-block;position:relative}
+body {
+  background-color: #fff;
+  margin: 0;
+  overflow: hidden;
+}
+#container {
+  display: inline-block;
+  position: relative;
+}
