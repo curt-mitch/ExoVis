@@ -1,5 +1,11 @@
+var cameras = require('./cameras');
+var renderer = require('./renderer');
+var scenes = require('./scenes');
+
 function render() {
-  cameraCube.rotation.copy(camera.rotation); // ties skybox camera to regular camera
-  renderer.render(sceneCube, cameraCube)
-  renderer.render(scene, camera );
+  cameras.cameraCube.rotation.copy(cameras.camera.rotation); // ties skybox camera to regular camera
+  renderer.render(scenes.sceneCube, cameras.cameraCube);
+  renderer.render(scenes.scene, cameras.camera);
 }
+
+module.exports = render;
