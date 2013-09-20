@@ -88,12 +88,13 @@ var skybox = require('./skybox.js');
 var scenes = require('./scenes.js');
 var controls = require('./controls.js');
 var bodies = require('./bodies.js');
+var systemInfo = require('./systemInfo.js');
 var animate = require('./animate.js');
 
 $(document).ready(function(){
   animate();
 });
-},{"./animate.js":1,"./bodies.js":2,"./cameras.js":3,"./controls.js":4,"./render.js":6,"./renderer.js":7,"./scenes.js":8,"./skybox.js":9}],6:[function(require,module,exports){
+},{"./animate.js":1,"./bodies.js":2,"./cameras.js":3,"./controls.js":4,"./render.js":6,"./renderer.js":7,"./scenes.js":8,"./skybox.js":9,"./systemInfo.js":10}],6:[function(require,module,exports){
 var cameras = require('./cameras');
 var renderer = require('./renderer');
 var scenes = require('./scenes');
@@ -157,5 +158,14 @@ var skybox = new THREE.Mesh(
 );
 
 module.exports = skybox;
-},{}]},{},[1,2,3,4,5,6,7,8,9])
+},{}],10:[function(require,module,exports){
+var renderer = require('./renderer');
+
+var title = document.createElement('div');
+$(title).attr('id', 'title');
+title.innerHTML = '<h1>ExoVis - A Visualizer for Exoplanetary Systems</h1>';
+document.body.appendChild(title);
+
+module.exports = title;
+},{"./renderer":7}]},{},[1,2,3,4,5,6,7,8,9,10])
 ;
