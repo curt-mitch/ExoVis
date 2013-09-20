@@ -14,18 +14,24 @@
     <script src="js/lib/jquery.js"></script>
     <div id="container"></div>
     <div class="textdata" id="title">
-      <h1>ExoVis - A Visualizer for Exoplanetary Systems</h1>
+      <h1>ExoVis - A Visualization of Exoplanetary Systems</h1>
     </div>
     <div class="textdata" id="starinfo">
       <h2>Star Name: sample star</h2>
     </div>
-    <div class="textdata" id="planetlist">
-      <label>Planet List</label>
-      <select name="planetlist">
-        <option value="1">Planet 1</option>
-        <option value="2">Planet 2</option>
-      </select>
-    </div>
+    <ul class="textdata" id="planetmenu">
+      <li>
+        <a href="#">Planet List</a>
+        <ul class="planetlist">
+          <li>
+            <a href="#">Planet 1</a>
+          </li>
+          <li>
+            <a href="#">Planet 2</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
     <script src="bundle.js"></script>
   </body>
 </html>
