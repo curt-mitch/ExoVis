@@ -13,3 +13,21 @@ html {
   width: 100%;
   height: 100%;
 }
+.textdata {
+  background-color: #fff;
+  position: absolute;
+  border-radius: 5px;
+  padding: 0px 5px;
+}
+#title {
+  left: 20px;
+  top: 35px;
+}
+#starinfo {
+  left: 20px;
+  top: 180px;
+}
+#planetlist {
+  left: 20px;
+  top: 275px;
+}

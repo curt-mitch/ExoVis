@@ -161,11 +161,6 @@ module.exports = skybox;
 },{}],10:[function(require,module,exports){
 var renderer = require('./renderer');
 
-var title = document.createElement('div');
-$(title).attr('id', 'title');
-title.innerHTML = '<h1>ExoVis - A Visualizer for Exoplanetary Systems</h1>';
-document.body.appendChild(title);
-
 module.exports = title;
 },{"./renderer":7}]},{},[1,2,3,4,5,6,7,8,9,10])
 ;
