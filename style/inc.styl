@@ -16,21 +16,31 @@ body, html
   background-color: white;
   position: absolute;
   border-radius: 5px;
-  padding: 0px 5px;
+  padding: 0px 10px;
+  font-family: palatino;
+
+.header
+  font-family: helvetica;
 
 #title
   left: 20px;
-  top: 35px;
+  top: 25px;
 
-#starinfo
+
+#systeminfo
   left: 20px;
-  top: 180px;
+  top: 160px;
+
+#planetinfo
+  left: 20px;
+  top: 405px;
+  position: absolute;
 
 ul#planetmenu, ul#planetmenu ul.planetlist
   padding: 0;
   margin: 0;
   left: 20px;
-  top: 275px;
+  top: 120px;
 
 ul#planetmenu li, ul#planetmenu ul.planetlist li
   list-style-type: none;
@@ -55,3 +65,5 @@ ul#planetmenu li ul.planetlist
 
 ul#planetmenu li:hover ul.planetlist
   display: block;
+  position: absolute;
+  z-index: 1000;
