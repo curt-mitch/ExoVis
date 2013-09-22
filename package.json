@@ -1,7 +1,7 @@
 {
   "name": "ExoVis",
   "main": "index.js",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Visualization of exoplanetary systems",
   "scripts": {
     "start": "node app.js"
@@ -42,7 +42,8 @@
   "dependencies": {
     "express": "~3.3.5",
     "path": "~0.4.9",
-    "nib": "~1.0.1",
-    "mongoose": "~3.6.19"
+    "mongoose": "~3.6.19",
+    "jquery": "latest",
+    "threejs": "latest"
   }
 }
