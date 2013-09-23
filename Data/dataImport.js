@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('localhost', 'test');
+mongoose.connect('mongodb://localhost/test');
 
 var fs = require('fs');
 var lineList = fs.readFileSync('nph-nstedAPI.csv').toString().split('\n');
