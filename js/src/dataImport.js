@@ -105,3 +105,5 @@ var ExoplanetDataSchema = new mongoose.Schema({
     hdName: String,
     hipName: String
 });
+
+module.exports = ExoplanetDataSchema;
