@@ -4,6 +4,7 @@ var speed = 1;
 var bodies = require('./bodies');
 var render = require('./render');
 var controls = require('./controls');
+
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
