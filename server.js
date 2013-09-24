@@ -8,115 +8,48 @@ var app = express();
 app.use(express.compress());
 
 app.use(express.static(__dirname));
-
-var fs = require('fs');
-var lineList = fs.readFileSync('data/nph-nstedAPI.csv').toString().split('\n');
-lineList.shift(); // Shift the headings off the list of records.
-
-//plMsinij = planet minimum mass (Jupiter)
-//TTV = transit timing variation
-//Kep = Kepler Field
-//ra = right ascension
-//dec = declination
-//dist = distance (Parsecs)
-//vj = V (Johnson) system magnitude
-//teff = Effective Stellar Temperature (K)
-//stRad = steller radius (solar percentage)
-var schemaKeyList = ['plHostName', 'plLetter', 'plDiscMethod', 'plPNum', 'plOrbPer',
-  'plOrbPerErr1', 'plOrbPerErr2', 'plOrbPerlim', 'plOrbsMax', 'plOrbsMaxErr1',
-  'plOrbsMaxErr2', 'plOrbsMaxLim', 'plOrbsMaxN', 'plOrbsEccen', 'plOrbEccenErr1',
-  'plOrbEccenErr2', 'plOrbEccenn', 'plOrbIncl', 'plOrbInclErr1', 'plOrbInclErr2',
-  'plOrbInclLim', 'plOrbIncLn', 'plMassJ', 'plMassJErr1', 'plMassJErr2', 'plMassLim',
-  'plMassN', 'plMsIniJ', 'plMsiniJErr1', 'plMsiniJErr2', 'plMsiniLim', 'plMsinIn',
-  'plRadj', 'plRadjErr1', 'plRadjErr2', 'plRadLim', 'plRadN', 'plDens', 'plDensErr1',
-  'plDensErr2', 'plDensLim', 'plDensN', 'plTTVflag', 'plKepFlag', 'raStr', 'decStr',
-  'ra', 'stRaErr', 'dec', 'stDecErr', 'stPosn', 'stDist', 'stDistErr1', 'stDistErr2',
-  'stDistN', 'stVJ', 'stVJErr', 'stVJLim', 'stVJBlend', 'stTEff', 'stTEffErr',
-  'stTEffLim', 'stTEffBlend','stTEffN', 'stMass', 'stMassErr', 'stMassLim', 'stMassBlend',
-  'stMassN','stRad', 'stRadErr', 'stRadLim', 'stRadBlend', 'stRadN', 'hdName', 'hipName'];
+mongoose.connect('mongodb://localhost/exovis');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
 
 var exoplanetDataSchema = new mongoose.Schema({
-    plHostName: String,
-    plLetter: String,
-    plDiscMethod: String,
-    plPNum: Number,
-    plOrbPer: Number,
-    plOrbPerErr1: Number,
-    plOrbPerErr2: Number,
-    plOrbPerlim: Number,
-    plOrbsMax: Number,
-    plOrbsMaxErr1: Number,
-    plOrbsMaxErr2: Number,
-    plOrbsMaxLim: Number,
-    plOrbsMaxN: Number,
-    plOrbsEccen: Number,
-    plOrbEccenErr1: Number,
-    plOrbEccenErr2: Number,
-    plOrbEccenn: Number,
-    plOrbIncl: Number,
-    plOrbInclErr1: Number,
-    plOrbInclErr2: Number,
-    plOrbInclLim: Number,
-    plOrbIncLn: Number,
-    plMassJ: Number,
-    plMassJErr1: Number,
-    plMassJErr2: Number,
-    plMassLim: Number,
-    plMassN: Number,
-    plMsIniJ: Number,
-    plMsiniJErr1: Number,
-    plMsiniJErr2: Number,
-    plMsiniLim: Number,
-    plMsinIn: Number,
-    plRadj: Number,
-    plRadjErr1: Number,
-    plRadjErr2: Number,
-    plRadLim: Number,
-    plRadN: Number,
-    plDens: Number,
-    plDensErr1: Number,
-    plDensErr2: Number,
-    plDensLim: Number,
-    plDensN: Number,
-    plTTVflag: Number,
-    plKepFlag: Number,
-    raStr: String,
-    decStr: String,
-    ra: Number,
-    stRaErr: Number,
-    dec: Number,
-    stDecErr: Number,
-    stPosn: Number,
-    stDist: Number,
-    stDistErr1: Number,
-    stDistErr2: Number,
-    stDistN: Number,
-    stVJ: Number,
-    stVJErr: Number,
-    stVJLim: Number,
-    stVJBlend: Number,
-    stTEff: Number,
-    stTEffErr: Number,
-    stTEffLim: Number,
-    stTEffBlend: Number,
-    stTEffN: Number,
-    stMass: Number,
-    stMassErr: Number,
-    stMassLim: Number,
-    stMassBlend: Number,
-    stMassN: Number,
-    stRad: Number,
-    stRadErr: Number,
-    stRadLim: Number,
-    stRadBlend: Number,
-    stRadN: Number,
-    hdName: String,
-    hipName: String
+  pl_hostname: String, // planet host name
+  pl_letter: String, // planet letter
+  pl_discmethod: String, // planet discovery method
+  pl_pnum: Number, // number of planets
+  pl_orbper: Number, // planet orbit period (days)
+  pl_orbsmax: Number, // orbit period semimajor axis
+  pl_orbeccen: Number, // orbit eccentricity
+  pl_orbincl: Number, // orbit inclination
+  pl_massj: Number, // planet mass (Jupiter)
+  pl_radj: Number, // planet radius
+  pl_dens: Number, // planet density (g/cm^3)
+  pl_ttvflag: Number, // planet transit timing variation flag
+  pl_kepflag: Number, // planet Kepler Field flag
+  ra: Number, // right ascension (degrees)
+  dec: Number, // declination (degrees)
+  pl_eqt: Number, // planet equilibrium temperature (K)
+  pl_masse: Number, // planet mass (Earth)
+  pl_rade: Number, // planet radius (Earth)
+  pl_disc: Number, // year of discovery
+  pl_status: Number, // planet status
+  pl_pelink: String, // link to Exoplanet Encyclopaedia
+  st_dist: Number, // distance (parsecs)
+  st_vj: Number, // V (Johnson) system magnitude
+  st_teff: Number, // effective stellar temperature (K)
+  st_mass: Number, // stellar mass (solar mass)
+  st_rad: Number, // stellar radius (solar radius)
+  hd_name: String, // HD name
+  hip_name: String, // HIP name
+  st_spstr: String, // stellar spectral type
+  st_lum: Number // stellar luminosity (log solar luminosity)
 });
 
-var ExoplanetSystem = mongoose.model('System', exoplanetDataSchema);
+var System = mongoose.model('System', exoplanetDataSchema, 'NASAdata');
 
-//connect to database
-mongoose.connect('mongodb://localhost/test');
+var query = System.findOne({'pl_hostname': 'HD 196885'}, null, function (err, system) {
+  if (err) return handleError(err);
+  console.log(system);
+});
 
 app.listen(process.env.PORT || 3000);
