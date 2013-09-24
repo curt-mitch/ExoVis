@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>ExoVis</title>
+    <link rel="stylesheet" href="style/inc.css">
+  </head>
+  <!-- following script enables LiveReload -->
+  <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
+  </script>
+  <body>
+    <script src="js/lib/three.js"></script>
+    <script src="js/lib/TrackballControls.js"></script>
+    <script src="js/lib/jquery.js"></script>
+    <div id="container"></div>
+    <div class="textdata" id="title">
+      <h1 class="header">ExoVis - A Visualization of Exoplanetary Systems</h1>
+    </div>
+    <ul class="textdata" id="planetmenu">
+      <li>
+        <a class="header">Planet List</a>
+        <ul class="planetlist">
+          <li>
+            <a>Planet 1</a>
+          </li>
+          <li>
+            <a>Planet 2</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div class="textdata" id="systeminfo">
+      <h2 class="header">System Information</h2>
+      <ul>
+        <li id="starname">Host Star: </li>
+        <li id="starmass">Stellar Mass: </li>
+        <li id="starsize">Stellar Size: </li>
+        <li id="startemp">Stellar Temperature: </li>
+        <li id="RA">Right Ascension: </li>
+        <li id="dec">Declination: </li>
+        <li id="distance">Distance: </li>
+        <li id="planetnum">Number of Observed Planets: </li>
+      </ul>
+    </div>
+    <div class="textdata" id="planetinfo">
+      <h2 class="header">Planet Information</h2>
+      <ul>
+        <li id="planetname">Planet Name: </li>
+        <li id="orbitlength">Length of Orbit: days</li>
+        <li id="planettemp">Equilibrium Temperature: </li>
+        <li id="planetmass">Planet Mass: </li>
+        <li id="discoverymethod">Discovery Method: </li>
+        <li id="discoveryyear">Discovery Year: </li>
+        <li id="planetstatus">Planet Status: </li>
+        <li id="encyclopedialink">Exoplanet Encyclopedia Link: </li>
+      </ul>
+    </div>
+    <script src="bundle.js"></script>
+  </body>
+</html>
