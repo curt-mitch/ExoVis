@@ -41,9 +41,11 @@
   ],
   "dependencies": {
     "express": "~3.3.5",
+    "jade": ">= 0.0.1",
+    "connect": ">=0.0.1",   
     "path": "~0.4.9",
     "mongoose": "~3.6.19",
-    "jquery": "~1.9.1",
+    "jquery": "latest",
     "three": "latest"
   }
 }
