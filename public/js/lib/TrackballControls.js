@@ -1,6 +1,7 @@
 /**
  * @author Eberhard Graether / http://egraether.com/
  */
+// comment out lines 365-366 and 391-392 to restore click events
 
 THREE.TrackballControls = function ( object, domElement ) {
 
