@@ -5,7 +5,7 @@ module.exports = function(grunt){
     browserify: {
       dist: {
         files: {
-          'bundle.js': ['js/src/*.js']
+          'public/bundle.js': ['public/js/src/*.js']
         }
       }
     },
@@ -13,18 +13,18 @@ module.exports = function(grunt){
     stylus: {
       compile: {
         files: {
-          'style/inc.css': 'style/inc.styl'
+          'public/style/inc.css': 'public/style/inc.styl'
         }
       }
     },
 
     watch: {
       scripts: {
-        files: ['js/src/*.js'],
+        files: ['public/js/src/*.js'],
         tasks: ['browserify']
       },
       styles: {
-        files: ['style/*.styl'],
+        files: ['public/style/*.styl'],
         tasks: ['stylus']
       }
     }

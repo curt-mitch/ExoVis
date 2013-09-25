@@ -3,6 +3,7 @@ var speed = 1;
 var bodies = require('./bodies');
 var render = require('./render');
 var controls = require('./controls');
+var exosystemData = require('./csvConvert');
 
 function animate() {
   requestAnimationFrame(animate);
