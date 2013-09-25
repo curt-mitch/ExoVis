@@ -30,6 +30,7 @@ var exoplanetDataSchema = new mongoose.Schema({
   pl_rade: Number, // planet radius (Earth)
   pl_disc: Number, // year of discovery
   pl_status: Number // planet status
+  thing: Object
 });
 
 var System = mongoose.model('System', exoplanetDataSchema, 'systemdata');
