@@ -24,15 +24,15 @@ var datapost = $(document).ready(function(){
       starname.append(data[0].pl_hostname);
       starmass.append(data[0].st_mass);
       starsize.append(data[0].st_rad);
-      startemp.append(data[0].st_teff);
+      startemp.append(data[0].st_teff + "K");
       RA.append(data[0].ra.toFixed(2) + "º");
       dec.append(data[0].dec.toFixed(2) + "º");
       distance.append((data[0].st_dist * 3.26).toFixed(2) + " light-years");
       planetnum.append(data[0].pl_pnum);
       planetname.append(data[0].pl_hostname + data[0].pl_letter);
-      orbitlength.append(data[0].pl_orbper.toFixed(2) + " days");
-      planettemp.append(data[0].pl_eqt || "unknown");
-      planetmass.append(data[0].pl_masse + " x Earth");
+      orbitlength.append(data[0].pl_orbper && data[0].pl_orbper.toFixed(2) + " days" || "unknown");
+      planettemp.append(data[0].pl_eqt && data[0].pl_eqt.toFixed(2) + "K" || "unknown");
+      planetmass.append(data[0].pl_masse && data[0].pl_masse.toFixed(0) || "unknown");
       discoverymethod.append(data[0].pl_discmethod);
       discoveryyear.append(data[0].pl_disc);
 

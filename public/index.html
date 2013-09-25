@@ -17,25 +17,18 @@
     <div class="textdata" id="title">
       <h1 class="header">ExoVis - A Visualization of Exoplanetary Systems</h1>
     </div>
-    <ul class="textdata" id="planetmenu">
-      <li>
-        <a class="header">Planet List</a>
-        <ul class="planetlist">
-          <li>
-            <a>Planet 1</a>
-          </li>
-          <li>
-            <a>Planet 2</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <form name="starselect">
+      <select name="starlist" id="starlist">
+        <option value="HAT-P-1">HAT-P-1</option>
+        <option value="HD%20196885">HD 20196885</option>
+      </select>
+    </form>
     <div class="textdata" id="systeminfo">
       <h2 class="header">System Information</h2>
       <ul>
         <li id="starname">Host Star: </li>
-        <li id="starmass">Stellar Mass: </li>
-        <li id="starsize">Stellar Size: </li>
+        <li id="starmass">Stellar Mass (x Sun): </li>
+        <li id="starsize">Stellar Size (x Sun): </li>
         <li id="startemp">Stellar Temperature: </li>
         <li id="RA">Right Ascension: </li>
         <li id="dec">Declination: </li>
@@ -47,12 +40,11 @@
       <h2 class="header">Planet Information</h2>
       <ul>
         <li id="planetname">Planet Name: </li>
-        <li id="orbitlength">Length of Orbit: days</li>
+        <li id="orbitlength">Length of Orbit: </li>
         <li id="planettemp">Equilibrium Temperature: </li>
-        <li id="planetmass">Planet Mass: </li>
+        <li id="planetmass">Planet Mass (x Earth): </li>
         <li id="discoverymethod">Discovery Method: </li>
         <li id="discoveryyear">Discovery Year: </li>
-        <li id="planetstatus">Planet Status: </li>
       </ul>
     </div>
     <script src="bundle.js"></script>

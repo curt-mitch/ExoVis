@@ -7,7 +7,7 @@ var controls = require('./controls.js');
 var bodies = require('./bodies.js');
 var systemInfo = require('./systemInfo.js');
 var animate = require('./animate.js');
-var csvConvert = require('./systemdata.js');
+var datapost = require('./datapost.js');
 
 $(document).ready(function(){
   animate();
