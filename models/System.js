@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var exoplanetDataSchema = module.exports = new mongoose.Schema({
+  rowid: Number,
   pl_hostname: String, // planet host name
   pl_letter: String, // planet letter
   pl_discmethod: String, // planet discovery method
