@@ -4,8 +4,8 @@ body,html{background-color:#fff;margin:0;padding:0;overflow:hidden;width:100%;he
 .header{font-family:helvetica}
 #starlist{left:20px;top:120px;size:200%;position:absolute;z-index:1000}
 #title{left:20px;top:25px}
-#systeminfo{left:20px;top:160px}
-#planetinfo{left:20px;top:405px;position:absolute}
+#systeminfo{left:20px;width:350px;top:160px}
+#planetinfo{left:20px;top:405px;width:350px;position:absolute}
 ul#planetmenu,ul#planetmenu ul.planetlist{padding:0;margin:0;left:20px;top:120px}
 ul#planetmenu li,ul#planetmenu ul.planetlist li{list-style-type:none;display:inline-block}
 ul#planetmenu li a,ul#planetmenu li ul.planetlist li a{text-decoration:none;color:#fff;background:#666;padding:5px;display:inline-block}
