@@ -1,3 +1,5 @@
+module.exports.exosystemInfo = {};
+
 var datapost = function(){
   var url = 'http://localhost:3000/systems/'+encodeURIComponent($("#starlist").val());
   console.log(url);
@@ -21,6 +23,7 @@ var datapost = function(){
       $('#planetradius').append('<span class="textdata">' + (data[0].pl_rade && data[0].pl_rade.toFixed(0)|| "N/A") + '</span>');
       $('#discoverymethod').append('<span class="textdata">' + data[0].pl_discmethod + '</span>');
       $('#discoveryyear').append('<span class="textdata">' + data[0].pl_disc + '</span>');
+      exosystemInfo.st_spstr = data[0].st_spstr;
     },
     error: function(){
       console.log('JSON not loaded successfully');

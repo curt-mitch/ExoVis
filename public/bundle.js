@@ -21,14 +21,25 @@ module.exports = animate;
 },{"./bodies":2,"./controls":4,"./render":7}],2:[function(require,module,exports){
 //add lighting sources
 var scenes = require('./scenes');
+var systemInfo = require('./systemInfo');
+
+console.log(systemInfo);
+
+var starColors = {
+  'O5': 0x9DB4FF,
+  'B1': 0xA2B9FF,
+  'B3': 0xA7BCFF,
+
+  'F8': 0xFFF9F9
+};
 
 var ambient = new THREE.AmbientLight(0xffffff);
 scenes.scene.add(ambient);
 
-var starlight = new THREE.PointLight(0xffffff, 10, 1000);
+var starlight = new THREE.PointLight(starColors.F8, 10, 1000);
 
 var star = new THREE.Mesh(new THREE.SphereGeometry(50, 30, 30),
-  new THREE.MeshPhongMaterial({ambient: 0xFFCC11}));
+  new THREE.MeshPhongMaterial({ambient: starColors.F8}));
 scenes.scene.add(star);
 star.add(starlight);
 
@@ -47,7 +58,7 @@ module.exports.starlight = starlight;
 module.exports.star = star;
 module.exports.planet1 = planet1;
 module.exports.planet2 = planet2;
-},{"./scenes":9}],3:[function(require,module,exports){
+},{"./scenes":9,"./systemInfo":11}],3:[function(require,module,exports){
 // CAMERA
 // args sig -> new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
 var camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
@@ -82,6 +93,8 @@ controls.addEventListener('change', render);
 
 module.exports = controls;
 },{"./cameras":3,"./render":7}],5:[function(require,module,exports){
+module.exports.systemInfo = {};
+
 var datapost = function(){
   var url = 'http://localhost:3000/systems/'+encodeURIComponent($("#starlist").val());
   console.log(url);
@@ -105,6 +118,7 @@ var datapost = function(){
       $('#planetradius').append('<span class="textdata">' + (data[0].pl_rade && data[0].pl_rade.toFixed(0)|| "N/A") + '</span>');
       $('#discoverymethod').append('<span class="textdata">' + data[0].pl_discmethod + '</span>');
       $('#discoveryyear').append('<span class="textdata">' + data[0].pl_disc + '</span>');
+      systemInfo.st_spstr = data[0].st_spstr;
     },
     error: function(){
       console.log('JSON not loaded successfully');

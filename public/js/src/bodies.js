@@ -1,13 +1,24 @@
 //add lighting sources
 var scenes = require('./scenes');
+var systemInfo = require('exosystemInfo');
+
+console.log(systemInfo);
+
+var starColors = {
+  'O5': 0x9DB4FF,
+  'B1': 0xA2B9FF,
+  'B3': 0xA7BCFF,
+
+  'F8': 0xFFF9F9
+};
 
 var ambient = new THREE.AmbientLight(0xffffff);
 scenes.scene.add(ambient);
 
-var starlight = new THREE.PointLight(0xffffff, 10, 1000);
+var starlight = new THREE.PointLight(starColors.F8, 10, 1000);
 
 var star = new THREE.Mesh(new THREE.SphereGeometry(50, 30, 30),
-  new THREE.MeshPhongMaterial({ambient: 0xFFCC11}));
+  new THREE.MeshPhongMaterial({ambient: starColors.F8}));
 scenes.scene.add(star);
 star.add(starlight);
 
