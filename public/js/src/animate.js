@@ -3,6 +3,8 @@ var speed = 1;
 var bodies = require('./bodies');
 var render = require('./render');
 var controls = require('./controls');
+var datapost = require('./datapost.js');
+var starSpectrum = datapost.exosystemInfo.st_spstr;
 
 function animate() {
   requestAnimationFrame(animate);

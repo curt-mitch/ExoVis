@@ -23,11 +23,11 @@ var datapost = function(){
       $('#planetradius').append('<span class="textdata">' + (data[0].pl_rade && data[0].pl_rade.toFixed(0)|| "N/A") + '</span>');
       $('#discoverymethod').append('<span class="textdata">' + data[0].pl_discmethod + '</span>');
       $('#discoveryyear').append('<span class="textdata">' + data[0].pl_disc + '</span>');
-      exosystemInfo.st_spstr = data[0].st_spstr;
-      exosystemInfo.st_rad = data[0].st_rad;
-      exosystemInfo.pl_rade = data[0].pl_rade;
-      exosystemInfo.pl_orbsmax = data[0].pl_orbsmax;
-      exosystemInfo.pl_orbper = data[0].pl_orbper;
+      exosystemInfo.st_spstr = data[0].st_spstr; //stellar spectrum
+      exosystemInfo.st_rad = data[0].st_rad; // star radius (solar)
+      exosystemInfo.pl_rade = data[0].pl_rade; // planet radius (earth)
+      exosystemInfo.pl_orbsmax = data[0].pl_orbsmax; // planet semi-major axis (AU)
+      exosystemInfo.pl_orbper = data[0].pl_orbper; // planet orbital period (days)
       console.log(exosystemInfo);
     },
     error: function(){

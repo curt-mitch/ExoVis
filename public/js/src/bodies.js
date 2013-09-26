@@ -1,6 +1,8 @@
 var scenes = require('./scenes');
-var datapost = require('./datapost.js');
+var datapost = require('./datapost');
+console.log(datapost.exosystemInfo);
 var starSpectrum = datapost.exosystemInfo.st_spstr;
+var starRadius = datapost.exosystemInfo.st_rad;
 
 var starColors = {
   'O5': 0x9DB4FF,
@@ -31,8 +33,8 @@ scenes.scene.add(ambient);
 
 var starlight = new THREE.PointLight(starColors.starSpectrum, 10, 1000);
 
-var star = new THREE.Mesh(new THREE.SphereGeometry(50, 30, 30),
-  new THREE.MeshPhongMaterial({ambient: starColors.starSpectrum}));
+var star = new THREE.Mesh(new THREE.SphereGeometry(Math.floor(starRadius*50), Math.floor(starRadius*50), Math.floor(starRadius*50)),
+  new THREE.MeshPhongMaterial({ambient: starColors[starSpectrum]}));
 scenes.scene.add(star);
 star.add(starlight);
 

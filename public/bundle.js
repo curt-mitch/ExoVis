@@ -4,6 +4,8 @@ var speed = 1;
 var bodies = require('./bodies');
 var render = require('./render');
 var controls = require('./controls');
+var datapost = require('./datapost.js');
+var starSpectrum = datapost.exosystemInfo.st_spstr;
 
 function animate() {
   requestAnimationFrame(animate);
@@ -18,10 +20,12 @@ function animate() {
 }
 
 module.exports = animate;
-},{"./bodies":2,"./controls":4,"./render":7}],2:[function(require,module,exports){
+},{"./bodies":2,"./controls":4,"./datapost.js":5,"./render":7}],2:[function(require,module,exports){
 var scenes = require('./scenes');
-var datapost = require('./datapost.js');
+var datapost = require('./datapost');
+console.log(datapost.exosystemInfo);
 var starSpectrum = datapost.exosystemInfo.st_spstr;
+var starRadius = datapost.exosystemInfo.st_rad;
 
 var starColors = {
   'O5': 0x9DB4FF,
@@ -52,8 +56,8 @@ scenes.scene.add(ambient);
 
 var starlight = new THREE.PointLight(starColors.starSpectrum, 10, 1000);
 
-var star = new THREE.Mesh(new THREE.SphereGeometry(50, 30, 30),
-  new THREE.MeshPhongMaterial({ambient: starColors.starSpectrum}));
+var star = new THREE.Mesh(new THREE.SphereGeometry(Math.floor(starRadius*50), Math.floor(starRadius*50), Math.floor(starRadius*50)),
+  new THREE.MeshPhongMaterial({ambient: starColors[starSpectrum]}));
 scenes.scene.add(star);
 star.add(starlight);
 
@@ -72,7 +76,7 @@ module.exports.starlight = starlight;
 module.exports.star = star;
 module.exports.planet1 = planet1;
 module.exports.planet2 = planet2;
-},{"./datapost.js":5,"./scenes":9}],3:[function(require,module,exports){
+},{"./datapost":5,"./scenes":9}],3:[function(require,module,exports){
 // CAMERA
 // args sig -> new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
 var camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
@@ -132,11 +136,11 @@ var datapost = function(){
       $('#planetradius').append('<span class="textdata">' + (data[0].pl_rade && data[0].pl_rade.toFixed(0)|| "N/A") + '</span>');
       $('#discoverymethod').append('<span class="textdata">' + data[0].pl_discmethod + '</span>');
       $('#discoveryyear').append('<span class="textdata">' + data[0].pl_disc + '</span>');
-      exosystemInfo.st_spstr = data[0].st_spstr;
-      exosystemInfo.st_rad = data[0].st_rad;
-      exosystemInfo.pl_rade = data[0].pl_rade;
-      exosystemInfo.pl_orbsmax = data[0].pl_orbsmax;
-      exosystemInfo.pl_orbper = data[0].pl_orbper;
+      exosystemInfo.st_spstr = data[0].st_spstr; //stellar spectrum
+      exosystemInfo.st_rad = data[0].st_rad; // star radius (solar)
+      exosystemInfo.pl_rade = data[0].pl_rade; // planet radius (earth)
+      exosystemInfo.pl_orbsmax = data[0].pl_orbsmax; // planet semi-major axis (AU)
+      exosystemInfo.pl_orbper = data[0].pl_orbper; // planet orbital period (days)
       console.log(exosystemInfo);
     },
     error: function(){
@@ -171,6 +175,7 @@ $(document).ready(function(){
 module.exports.datapost = datapost;
 module.exports.exosystemInfo = exosystemInfo;
 },{}],6:[function(require,module,exports){
+var datapost = require('./datapost.js');
 var cameras = require('./cameras.js');
 var render = require('./render.js');
 var renderer = require('./renderer.js');
@@ -180,7 +185,6 @@ var controls = require('./controls.js');
 var bodies = require('./bodies.js');
 var systemInfo = require('./systemInfo.js');
 var animate = require('./animate.js');
-var datapost = require('./datapost.js');
 
 $(document).ready(function(){
   animate();
