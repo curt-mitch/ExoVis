@@ -1,4 +1,4 @@
-module.exports.exosystemInfo = {};
+var exosystemInfo = {};
 
 var datapost = function(){
   var url = 'http://localhost:3000/systems/'+encodeURIComponent($("#starlist").val());
@@ -24,6 +24,11 @@ var datapost = function(){
       $('#discoverymethod').append('<span class="textdata">' + data[0].pl_discmethod + '</span>');
       $('#discoveryyear').append('<span class="textdata">' + data[0].pl_disc + '</span>');
       exosystemInfo.st_spstr = data[0].st_spstr;
+      exosystemInfo.st_rad = data[0].st_rad;
+      exosystemInfo.pl_rade = data[0].pl_rade;
+      exosystemInfo.pl_orbsmax = data[0].pl_orbsmax;
+      exosystemInfo.pl_orbper = data[0].pl_orbper;
+      console.log(exosystemInfo);
     },
     error: function(){
       console.log('JSON not loaded successfully');
@@ -55,3 +60,4 @@ $(document).ready(function(){
 });
 
 module.exports.datapost = datapost;
+module.exports.exosystemInfo = exosystemInfo;
