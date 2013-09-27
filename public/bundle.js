@@ -1,31 +1,172 @@
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var time = 0;
-var speed = 1;
-var bodies = require('./bodies');
-var render = require('./render');
-var controls = require('./controls');
-var datapost = require('./datapost.js');
-var starSpectrum = datapost.exosystemInfo.st_spstr;
+var Body = module.exports = function(options) {
+  this.scene = options.scene;
 
-function animate() {
-  requestAnimationFrame(animate);
-  controls.update();
-  render();
+  var geometry = new THREE.SphereGeometry(15, 20, 16);
+  var material = new THREE.MeshPhongMaterial({color: 0xAADD00, ambient: 0x1a1a1a});
+  this.mesh = new THREE.Mesh(geometry, material);
+  this.mesh.position.set(50,0,0);
 
-  time = time + speed;
-  var p1_angle = time * 0.01,
-  p2_angle = time * 0.004;
-  bodies.planet1.position.set(200* Math.cos(p1_angle), 200*Math.sin(p1_angle), 0);
-  bodies.planet2.position.set(350* Math.cos(p2_angle), 350*Math.sin(p2_angle), 0);
-}
+  this.scene.add(this.mesh);
+};
 
-module.exports = animate;
-},{"./bodies":2,"./controls":4,"./datapost.js":5,"./render":7}],2:[function(require,module,exports){
-var scenes = require('./scenes');
-var datapost = require('./datapost');
-console.log(datapost.exosystemInfo);
-var starSpectrum = datapost.exosystemInfo.st_spstr;
-var starRadius = datapost.exosystemInfo.st_rad;
+Body.prototype.destroy = function() {
+  this.scene.remove(this.mesh);
+};
+
+Body.prototype.update = function(time) {
+  var p1_angle = time * 0.001;
+  var p2_angle = time * 0.0004;
+
+  this.mesh.position.set(200* Math.cos(p1_angle), 200*Math.sin(p1_angle), 0);
+};
+
+},{}],2:[function(require,module,exports){
+var System = require('./System.js');
+var Skybox = require('./Skybox.js');
+
+var ExoViz = module.exports = function() {
+  console.log('Initializing system');
+
+  // Make animate always execute in our scope
+  this.animate = this.animate.bind(this);
+
+  // Camera
+  this.camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
+  this.camera.position.z = 1500;
+
+  // Controls
+  this.controls = new THREE.TrackballControls(this.camera);
+
+  this.controls.rotateSpeed = 1.0;
+  this.controls.zoomSpeed = 1.2;
+  this.controls.panSpeed = 0.8;
+
+  this.controls.noZoom = false;
+  this.controls.noPan = false;
+
+  this.controls.staticMoving = true;
+  this.controls.dynamicDampingFactor = 0.3;
+
+  // Adds functions in conjuction with mouse click:
+  //  A = rotate, S = zoom, D = pan
+  this.controls.keys = [65, 83, 68];
+
+  // TODO: Why do you need to do this? Shouldn't it happen in the render loop?
+  var self = this;
+  this.controls.addEventListener('change', function() {
+    self.render();
+  });
+
+  // Scene
+  this.scene = new THREE.Scene();
+
+  // Renderer
+  // Create a WebGLRenderer
+  this.renderer = new THREE.WebGLRenderer({antialias: true});
+  this.renderer.setClearColor(0x000000, 1.0);
+  this.renderer.clear();
+
+  // Add to DOM
+  this.$container = $("#container"); //grab DOM element
+  this.$container.append(this.renderer.domElement);
+
+  // Set size
+  this.setSize(container.offsetWidth, container.offsetHeight);
+
+  // Create new system
+  this.system = new System({
+    starName: 'HAT-P-1',
+    scene: this.scene,
+    loaded: this.addData.bind(this)
+  });
+
+  // Create skybox
+  this.skybox = new Skybox({
+    scene: this.scene
+  });
+
+  $(window).on('resize', this.setSize.bind(this));
+
+  // Start animating
+  this.animate(0);
+};
+
+ExoViz.prototype.setSystem = function(starName) {
+  this.system.fetch(starName);
+};
+
+ExoViz.prototype.setSize = function(width, height) {
+  var width = this.width = this.$container.innerWidth();
+  var height = this.height = this.$container.innerHeight();
+
+  // Make crisp on retina displays by using devicePixelRation
+  var ratio = window.devicePixelRatio || 1;
+  this.renderer.setSize(width*ratio, height*ratio);
+
+  this.renderer.setSize(width, height);
+
+  if (this.camera) {
+    this.camera.aspect = width/height;
+    
+    this.camera.updateProjectionMatrix();
+  }
+};
+
+ExoViz.prototype.render = function() {
+  // this.cubeCamera.rotation.copy(this.camera.rotation); // ties skybox camera to regular camera
+  // this.renderer.render(this.cubeScene, this.cubeCamera);
+  this.renderer.render(this.scene, this.camera);
+};
+
+ExoViz.prototype.animate = function(time) {
+  this.controls.update();
+  
+  this.system.update(time);
+
+  this.render();
+
+  requestAnimationFrame(this.animate);
+};
+
+
+module.exports = ExoViz;
+
+},{"./Skybox.js":3,"./System.js":4}],3:[function(require,module,exports){
+var Skybox = module.exports = function(options) {
+  var urlPrefix = "textures/skybox/";
+  var urls = [
+    urlPrefix + "pos-x.png", urlPrefix + "neg-x.png",
+    urlPrefix + "pos-y.png", urlPrefix + "neg-y.png",
+    urlPrefix + "pos-z.png", urlPrefix + "neg-z.png"
+  ];
+
+  var cubemap = THREE.ImageUtils.loadTextureCube(urls); // load textures
+  cubemap.format = THREE.RGBFormat;
+
+  var shader = THREE.ShaderLib['cube']; // init cube shader from built-in lib
+  shader.uniforms['tCube'].value = cubemap; // apply textures to shader
+
+  // Create shader material
+  var skyBoxMaterial = new THREE.ShaderMaterial( {
+    fragmentShader: shader.fragmentShader,
+    vertexShader: shader.vertexShader,
+    uniforms: shader.uniforms,
+    depthWrite: false,
+    side: THREE.BackSide
+  });
+
+  // Define geometry
+  var geometry = new THREE.CubeGeometry(10000, 10000, 10000);
+
+  // Create skybox mesh
+  var skybox = new THREE.Mesh(geometry, skyBoxMaterial);
+
+  options.scene.add(skybox);
+};
+
+},{}],4:[function(require,module,exports){
+var Body = require('./Body.js');
 
 var starColors = {
   'O5': 0x9DB4FF,
@@ -51,72 +192,99 @@ var starColors = {
   'M6': 0xFFBB7B
 };
 
-var ambient = new THREE.AmbientLight(0xffffff);
-scenes.scene.add(ambient);
+var System = module.exports = function(options) {
+  this.starName = null;
+  this.info = {};
+  this.bodies = [];
 
-var starlight = new THREE.PointLight(starColors.starSpectrum, 10, 1000);
+  this.scene = options.scene;
 
-var star = new THREE.Mesh(new THREE.SphereGeometry(Math.floor(starRadius*50), Math.floor(starRadius*50), Math.floor(starRadius*50)),
-  new THREE.MeshPhongMaterial({ambient: starColors[starSpectrum]}));
-scenes.scene.add(star);
-star.add(starlight);
+  this.loaded = options.loaded;
 
-var planet1 = new THREE.Mesh(new THREE.SphereGeometry(15, 20, 16),
-  new THREE.MeshPhongMaterial({color: 0xAADD00, ambient: 0x1a1a1a}));
-planet1.position.set(50,0,0);
-scenes.scene.add(planet1);
+  // Fetch star info if name provided
+  if (options.starName)
+    this.fetch(options.starName);
+};
 
-var planet2 = new THREE.Mesh(new THREE.SphereGeometry(25, 20, 16),
-  new THREE.MeshPhongMaterial({color: 0xCD5555, ambient: 0x1a1a1a}));
-planet2.position.set(-100,0,0);
-scenes.scene.add(planet2);
+System.prototype.init = function(data) {
+  this.reset();
 
-module.exports.ambient = ambient;
-module.exports.starlight = starlight;
-module.exports.star = star;
-module.exports.planet1 = planet1;
-module.exports.planet2 = planet2;
-},{"./datapost":5,"./scenes":9}],3:[function(require,module,exports){
-// CAMERA
-// args sig -> new THREE.PerspectiveCamera( FOV, viewAspectRatio, zNear, zFar );
-var camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
-camera.position.z = 1500;
-module.exports.camera = camera;
+  this.info.st_spstr = data[0].st_spstr; //stellar spectrum
+  this.info.st_rad = data[0].st_rad; // star radius (solar)
+  this.info.pl_rade = data[0].pl_rade; // planet radius (earth)
+  this.info.pl_orbsmax = data[0].pl_orbsmax; // planet semi-major axis (AU)
+  this.info.pl_orbper = data[0].pl_orbper; // planet orbital period (days)
 
-// camera dedicated to skybox
-var cameraCube = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
-module.exports.cameraCube = cameraCube;
-},{}],4:[function(require,module,exports){
-//controls for camera angle
-var cameras = require('./cameras');
-var render = require('./render');
+  var starSpectrum = this.info.st_spstr;
+  var starRadius = this.info.st_rad;
 
-controls = new THREE.TrackballControls(cameras.camera);
+  this.ambient = new THREE.AmbientLight(0xffffff);
+  this.scene.add(this.ambient);
 
-controls.rotateSpeed = 1.0;
-controls.zoomSpeed = 1.2;
-controls.panSpeed = 0.8;
+  var radius = Math.floor(starRadius*50);
+  var geometry = new THREE.SphereGeometry(radius, radius, radius);
+  var material = new THREE.MeshPhongMaterial({ ambient: starColors[starSpectrum] });
+  this.star = new THREE.Mesh(geometry, material);
+  this.scene.add(this.star);
 
-controls.noZoom = false;
-controls.noPan = false;
+  this.starlight = new THREE.PointLight(starColors[starSpectrum], 10, 1000);
+  this.star.add(this.starlight);
 
-controls.staticMoving = true;
-controls.dynamicDampingFactor = 0.3;
+  // TODO: LOOP OVER ALL THE PLANETS AN ADD THEM
+  this.addPlanet(new Body({
+    scene: this.scene
+  }));
 
-//adds functions in conjuction with mouse click:
-// A = rotate, S = zoom, D = pan
-controls.keys = [65, 83, 68];
+  if (typeof this.loaded === 'function')
+    this.loaded(this.info);
+};
 
-controls.addEventListener('change', render);
+System.prototype.update = function(time) {
+  if (this.bodies.length) {
+    this.bodies.forEach(function(body) {
+      body.update(time);
+    });
+  }
+};
 
-module.exports = controls;
-},{"./cameras":3,"./render":7}],5:[function(require,module,exports){
-var exosystemInfo = {};
+System.prototype.addPlanet = function(body) {
+  this.bodies.push(body);
+};
 
+System.prototype.reset = function() {
+  if (this.scene)
+    this.scene.remove(this.star);
+
+  if (this.bodies.length) {
+    this.bodies.forEach(function(body) {
+      body.destroy();
+    });
+
+    // Reset array
+    this.bodies.length = 0;
+  }
+
+  this.info = {};
+};
+
+System.prototype.fetch = function(starName) {
+  // Store star name
+  this.starName = starName;
+
+  // Fetch data
+  var url = 'http://localhost:3000/systems/'+this.starName;
+  return $.ajax({
+    url: url,
+    dataType: 'json',
+    success: this.init.bind(this)
+  });
+};
+
+},{"./Body.js":1}],5:[function(require,module,exports){
 var datapost = function(){
   var url = 'http://localhost:3000/systems/'+encodeURIComponent($("#starlist").val());
-  console.log(url);
-  $.ajax({
+  // console.log(url);
+  return $.ajax({
     url: url,
     dataType: 'json',
     success: function(data, status){
@@ -136,12 +304,6 @@ var datapost = function(){
       $('#planetradius').append('<span class="textdata">' + (data[0].pl_rade && data[0].pl_rade.toFixed(0)|| "N/A") + '</span>');
       $('#discoverymethod').append('<span class="textdata">' + data[0].pl_discmethod + '</span>');
       $('#discoveryyear').append('<span class="textdata">' + data[0].pl_disc + '</span>');
-      exosystemInfo.st_spstr = data[0].st_spstr; //stellar spectrum
-      exosystemInfo.st_rad = data[0].st_rad; // star radius (solar)
-      exosystemInfo.pl_rade = data[0].pl_rade; // planet radius (earth)
-      exosystemInfo.pl_orbsmax = data[0].pl_orbsmax; // planet semi-major axis (AU)
-      exosystemInfo.pl_orbper = data[0].pl_orbper; // planet orbital period (days)
-      console.log(exosystemInfo);
     },
     error: function(){
       console.log('JSON not loaded successfully');
@@ -173,90 +335,13 @@ $(document).ready(function(){
 });
 
 module.exports.datapost = datapost;
-module.exports.exosystemInfo = exosystemInfo;
+
 },{}],6:[function(require,module,exports){
-var datapost = require('./datapost.js');
-var cameras = require('./cameras.js');
-var render = require('./render.js');
-var renderer = require('./renderer.js');
-var skybox = require('./skybox.js');
-var scenes = require('./scenes.js');
-var controls = require('./controls.js');
-var bodies = require('./bodies.js');
-var systemInfo = require('./systemInfo.js');
-var animate = require('./animate.js');
+var ExoViz = require('./ExoViz.js');
 
-$(document).ready(function(){
-  animate();
+$(function(){
+  window.exoViz = new ExoViz();
 });
 
-},{"./animate.js":1,"./bodies.js":2,"./cameras.js":3,"./controls.js":4,"./datapost.js":5,"./render.js":7,"./renderer.js":8,"./scenes.js":9,"./skybox.js":10,"./systemInfo.js":11}],7:[function(require,module,exports){
-var cameras = require('./cameras');
-var renderer = require('./renderer');
-var scenes = require('./scenes');
-
-function render() {
-  cameras.cameraCube.rotation.copy(cameras.camera.rotation); // ties skybox camera to regular camera
-  renderer.render(scenes.sceneCube, cameras.cameraCube);
-  renderer.render(scenes.scene, cameras.camera);
-}
-
-module.exports = render;
-},{"./cameras":3,"./renderer":8,"./scenes":9}],8:[function(require,module,exports){
-// Create a WebGLRenderer
-var renderer = new THREE.WebGLRenderer({antialias: true});
-var container = document.getElementById("container"); //grab DOM element
-renderer.setSize(container.offsetWidth, container.offsetHeight);
-
-container.appendChild(renderer.domElement);
-
-renderer.setClearColor(0x000000, 1.0);
-renderer.clear();
-
-module.exports = renderer;
-},{}],9:[function(require,module,exports){
-// SCENE
-var skybox = require('./skybox');
-var scene = new THREE.Scene();
-scene.add(skybox);
-module.exports.scene = scene;
-
-var sceneCube = new THREE.Scene(); //this is a scene rendered specifically for the skybox
-module.exports.sceneCube = sceneCube;
-},{"./skybox":10}],10:[function(require,module,exports){
-//add skybox
-var urlPrefix = "textures/skybox/";
-var urls = [
-  urlPrefix + "pos-x.png", urlPrefix + "neg-x.png",
-  urlPrefix + "pos-y.png", urlPrefix + "neg-y.png",
-  urlPrefix + "pos-z.png", urlPrefix + "neg-z.png"
-];
-
-var cubemap = THREE.ImageUtils.loadTextureCube(urls); // load textures
-cubemap.format = THREE.RGBFormat;
-
-var shader = THREE.ShaderLib['cube']; // init cube shader from built-in lib
-shader.uniforms['tCube'].value = cubemap; // apply textures to shader
-
-// create shader material
-var skyBoxMaterial = new THREE.ShaderMaterial( {
-  fragmentShader: shader.fragmentShader,
-  vertexShader: shader.vertexShader,
-  uniforms: shader.uniforms,
-  depthWrite: false,
-  side: THREE.BackSide
-});
-
-// create skybox mesh
-var skybox = new THREE.Mesh(
-  new THREE.CubeGeometry(10000, 10000, 10000),
-  skyBoxMaterial
-);
-
-module.exports = skybox;
-},{}],11:[function(require,module,exports){
-var renderer = require('./renderer');
-
-module.exports = title;
-},{"./renderer":8}]},{},[1,2,3,4,5,6,7,8,9,10,11])
+},{"./ExoViz.js":2}]},{},[1,2,3,4,5,6])
 ;
