@@ -90,8 +90,7 @@ System.prototype.init = function(data) {
   this.info.pl_orbper = data[0].pl_orbper; // planet orbital period (days)
 
   var starSpectrum = this.info.st_spstr.substr(0,2);
-  var starRadius = Math.floor(this.info.st_rad * 50);
-  console.log(star);
+  var starRadius = Math.floor(this.info.st_rad * 25);
 
   this.ambient = new THREE.AmbientLight(0xffffff);
   this.scene.add(this.ambient);
@@ -105,9 +104,24 @@ System.prototype.init = function(data) {
   this.star.add(this.starlight);
 
   // TODO: LOOP OVER ALL THE PLANETS AND ADD THEM
-  this.addPlanet(new Body({
-    scene: this.scene
-  }));
+  var planetRadius;
+  var planetDistance;
+  var planetYear;
+  for(var key in data){
+    planetRadius = data[key].pl_rade || Math.floor(data[key].st_rad * 5);
+    planetDistance = data[key].pl_rade || Math.floor(data[key].st_rad * (key*1 + 1) * 20);
+    planetOrbit = data[key].pl_orbper || Math.floor(data[key].st_rad * (key*1 + 1) * 5);
+    console.log("star radius: " + starRadius);
+    console.log("planet radius: " + planetRadius);
+    console.log("planet distance: " + planetDistance);
+    console.log("planet orbital period: " + planetOrbit);
+    this.addPlanet(new Body({
+      scene: this.scene,
+      geometry: new THREE.SphereGeometry(planetRadius, planetRadius * 10, planetRadius * 10),
+      material: new THREE.MeshPhongMaterial({color: 0x808080}),
+      mesh: this.mesh
+    }));
+  }
 
   if (typeof this.loaded === 'function')
     this.loaded(this.info);
