@@ -76,9 +76,9 @@ var ExoViz = module.exports = function() {
 
   // Create new system
   this.system = new System({
-    starName: 'HAT-P-1',
+    starName: $('#starlist').val(),
     scene: this.scene,
-    loaded: this.addData.bind(this)
+    //loaded: this.addData.bind(this) //loads data into DOM
   });
 
   // Create skybox
@@ -103,8 +103,6 @@ ExoViz.prototype.setSize = function(width, height) {
   // Make crisp on retina displays by using devicePixelRation
   var ratio = window.devicePixelRatio || 1;
   this.renderer.setSize(width*ratio, height*ratio);
-
-  this.renderer.setSize(width, height);
 
   if (this.camera) {
     this.camera.aspect = width/height;
@@ -215,7 +213,7 @@ System.prototype.init = function(data) {
   this.info.pl_orbsmax = data[0].pl_orbsmax; // planet semi-major axis (AU)
   this.info.pl_orbper = data[0].pl_orbper; // planet orbital period (days)
 
-  var starSpectrum = this.info.st_spstr;
+  var starSpectrum = this.info.st_spstr.substr(0,2);
   var starRadius = this.info.st_rad;
 
   this.ambient = new THREE.AmbientLight(0xffffff);
@@ -282,7 +280,7 @@ System.prototype.fetch = function(starName) {
 
 },{"./Body.js":1}],5:[function(require,module,exports){
 var datapost = function(){
-  var url = 'http://localhost:3000/systems/'+encodeURIComponent($("#starlist").val());
+  var url = 'http://localhost:3000/systems/'+$("#starlist").val();
   // console.log(url);
   return $.ajax({
     url: url,
