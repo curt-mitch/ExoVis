@@ -48,13 +48,12 @@ System.prototype.init = function(data) {
   this.info.pl_orbper = data[0].pl_orbper; // planet orbital period (days)
 
   var starSpectrum = this.info.st_spstr.substr(0,2);
-  var starRadius = this.info.st_rad;
+  var starRadius = Math.floor(this.info.st_rad);
 
   this.ambient = new THREE.AmbientLight(0xffffff);
   this.scene.add(this.ambient);
 
-  var radius = Math.floor(starRadius*50);
-  var geometry = new THREE.SphereGeometry(radius, radius, radius);
+  var geometry = new THREE.SphereGeometry(starRadius, starRadius, starRadius);
   var material = new THREE.MeshPhongMaterial({ ambient: starColors[starSpectrum] });
   this.star = new THREE.Mesh(geometry, material);
   this.scene.add(this.star);
@@ -104,7 +103,7 @@ System.prototype.fetch = function(starName) {
   this.starName = starName;
 
   // Fetch data
-  var url = 'http://localhost:3000/systems/'+this.starName;
+  var url = '/systems/' + this.starName;
   return $.ajax({
     url: url,
     dataType: 'json',
