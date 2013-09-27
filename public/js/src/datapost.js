@@ -1,5 +1,5 @@
 var datapost = function(){
-  var url = 'http://localhost:3000/systems/'+encodeURIComponent($("#starlist").val());
+  var url = 'http://localhost:3000/systems/'+$("#starlist").val();
   // console.log(url);
   return $.ajax({
     url: url,
