@@ -52,9 +52,9 @@ var ExoViz = module.exports = function() {
 
   // Create new system
   this.system = new System({
-    starName: 'HAT-P-1',
+    starName: $('#starlist').val(),
     scene: this.scene,
-    loaded: this.addData.bind(this)
+    //loaded: this.addData.bind(this) //loads data into DOM
   });
 
   // Create skybox
@@ -79,8 +79,6 @@ ExoViz.prototype.setSize = function(width, height) {
   // Make crisp on retina displays by using devicePixelRation
   var ratio = window.devicePixelRatio || 1;
   this.renderer.setSize(width*ratio, height*ratio);
-
-  this.renderer.setSize(width, height);
 
   if (this.camera) {
     this.camera.aspect = width/height;
