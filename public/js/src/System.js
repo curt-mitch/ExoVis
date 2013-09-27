@@ -47,7 +47,7 @@ System.prototype.init = function(data) {
   this.info.pl_orbsmax = data[0].pl_orbsmax; // planet semi-major axis (AU)
   this.info.pl_orbper = data[0].pl_orbper; // planet orbital period (days)
 
-  var starSpectrum = this.info.st_spstr;
+  var starSpectrum = this.info.st_spstr.substr(0,2);
   var starRadius = this.info.st_rad;
 
   this.ambient = new THREE.AmbientLight(0xffffff);
