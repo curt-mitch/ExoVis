@@ -3,7 +3,6 @@ var Body = module.exports = function(options) {
   var geometry = new THREE.SphereGeometry(this.planetRadius / 2, this.planetRadius * 10, this.planetRadius * 10);
   var material = new THREE.MeshPhongMaterial({color: 0xAADD00, ambient: 0x1a1a1a});
   this.mesh = new THREE.Mesh(geometry, material);
-  var setPlanetDistance = this.planetDistance;
 
   this.scene.add(this.mesh);
 };
