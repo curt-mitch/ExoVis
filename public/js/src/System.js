@@ -96,11 +96,12 @@ System.prototype.init = function(data) {
   this.scene.add(this.ambient);
 
   //load star surface image
-  var surfaceUrl = "textures/star/sunmap.jpg";
+  var surfaceUrl = "textures/star/sunmap.png";
   var geometry = new THREE.SphereGeometry(starRadius, starRadius, starRadius);
   var material = new THREE.MeshPhongMaterial({
-                ambient: starColors[starSpectrum],
-                map: THREE.ImageUtils.loadTexture(surfaceUrl)});
+                color: starColors[starSpectrum],
+                bumpMap: THREE.ImageUtils.loadTexture(surfaceUrl)
+              });
 
   this.star = new THREE.Mesh(geometry, material);
   this.scene.add(this.star);
