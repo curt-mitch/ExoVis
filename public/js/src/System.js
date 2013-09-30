@@ -96,11 +96,11 @@ System.prototype.init = function(data) {
   this.scene.add(this.ambient);
 
   //load star surface image
-  var surfaceUrl = "textures/star/sunmap.png";
   var geometry = new THREE.SphereGeometry(starRadius, starRadius, starRadius);
   var material = new THREE.MeshPhongMaterial({
                 color: starColors[starSpectrum],
-                bumpMap: THREE.ImageUtils.loadTexture(surfaceUrl)
+                transparent: true,
+                opacity: 1
               });
 
   this.star = new THREE.Mesh(geometry, material);
@@ -113,6 +113,8 @@ System.prototype.init = function(data) {
   var planetRadius;
   var planetDistance;
   var planetYear;
+  var planetGeometry;
+  var planetMaterial;
   for(var key in data){
     planetRadius = data[key].pl_rade || Math.floor(data[key].st_rad * 5);
     planetDistance = data[key].pl_rade || Math.floor(data[key].st_rad * (key*1 + 1) * 20);
@@ -121,12 +123,15 @@ System.prototype.init = function(data) {
     console.log("planet radius: " + planetRadius);
     console.log("planet distance: " + planetDistance);
     console.log("planet orbital period: " + planetOrbit);
+    // maybe declare geometry and material variables here and pass to 
+    // mesh: this.mesh(geometry, materials) below?
+    planetGeometry = new THREE.SphereGeometry(planetRadius / 2, planetRadius * 10, planetRadius * 10);
+    planetMaterial = new THREE.MeshPhongMaterial({color: 0xff0000});
     this.addPlanet(new Body({
       scene: this.scene,
-      geometry: new THREE.SphereGeometry(planetRadius, planetRadius * 10, planetRadius * 10),
-      material: new THREE.MeshPhongMaterial({color: 0x808080}),
-      mesh: this.mesh
+      mesh: new THREE.Mesh(planetGeometry, planetMaterial)
     }));
+    console.log("Body.update: " + Body);
   }
 
   if (typeof this.loaded === 'function')
@@ -143,6 +148,8 @@ System.prototype.update = function(time) {
 
 System.prototype.addPlanet = function(body) {
   this.bodies.push(body);
+  this.scene.add(body.mesh);
+  console.log("this.body: " + body);
 };
 
 System.prototype.reset = function() {
