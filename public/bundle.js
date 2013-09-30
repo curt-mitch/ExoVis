@@ -1,10 +1,9 @@
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Body = module.exports = function(options) {
   this.scene = options.scene;
-  var geometry = new THREE.SphereGeometry(this.planetRadius / 2, this.planetRadius * 10, this.planetRadius * 10);
-  var material = new THREE.MeshPhongMaterial({color: 0xAADD00, ambient: 0x1a1a1a});
+  geometry = new THREE.SphereGeometry(this.planetRadius, this.planetRadius * 10, this.planetRadius * 10);
+  material = new THREE.MeshPhongMaterial({color: 0xAADD00, ambient: 0x1a1a1a});
   this.mesh = new THREE.Mesh(geometry, material);
-  var setPlanetDistance = this.planetDistance;
 
   this.scene.add(this.mesh);
 };
@@ -260,11 +259,11 @@ System.prototype.init = function(data) {
   this.scene.add(this.ambient);
 
   //load star surface image
-  var surfaceUrl = "textures/star/sunmap.png";
   var geometry = new THREE.SphereGeometry(starRadius, starRadius, starRadius);
   var material = new THREE.MeshPhongMaterial({
                 color: starColors[starSpectrum],
-                bumpMap: THREE.ImageUtils.loadTexture(surfaceUrl)
+                transparent: true,
+                opacity: 1
               });
 
   this.star = new THREE.Mesh(geometry, material);
@@ -277,6 +276,8 @@ System.prototype.init = function(data) {
   var planetRadius;
   var planetDistance;
   var planetYear;
+  var planetGeometry;
+  var planetMaterial;
   for(var key in data){
     planetRadius = data[key].pl_rade || Math.floor(data[key].st_rad * 5);
     planetDistance = data[key].pl_rade || Math.floor(data[key].st_rad * (key*1 + 1) * 20);
@@ -285,12 +286,15 @@ System.prototype.init = function(data) {
     console.log("planet radius: " + planetRadius);
     console.log("planet distance: " + planetDistance);
     console.log("planet orbital period: " + planetOrbit);
+    // maybe declare geometry and material variables here and pass to 
+    // mesh: this.mesh(geometry, materials) below?
+    planetGeometry = new THREE.SphereGeometry(planetRadius / 2, planetRadius * 10, planetRadius * 10);
+    planetMaterial = new THREE.MeshPhongMaterial({color: 0xff0000});
     this.addPlanet(new Body({
       scene: this.scene,
-      geometry: new THREE.SphereGeometry(planetRadius, planetRadius * 10, planetRadius * 10),
-      material: new THREE.MeshPhongMaterial({color: 0x808080}),
-      mesh: this.mesh
+      mesh: new THREE.Mesh(planetGeometry, planetMaterial)
     }));
+    console.log("Body.update: " + Body);
   }
 
   if (typeof this.loaded === 'function')
@@ -307,6 +311,8 @@ System.prototype.update = function(time) {
 
 System.prototype.addPlanet = function(body) {
   this.bodies.push(body);
+  this.scene.add(body.mesh);
+  console.log("this.body: " + body);
 };
 
 System.prototype.reset = function() {
@@ -340,12 +346,17 @@ System.prototype.fetch = function(starName) {
 
 },{"./Body.js":1}],5:[function(require,module,exports){
 var datapost = function(){
-  var url = '/systems/'+$("#starlist").val();
-  // console.log(url);
+  var url = '/systems/'+$('#starlist').val();
   return $.ajax({
     url: url,
     dataType: 'json',
     success: function(data, status){
+      for(var key in data){
+        $('#planetlist')
+          .append($('<option></option>')
+          .attr('value',key)
+          .text(data[key].pl_hostname + " " + data[key].pl_letter));
+      };
       $('#starname').append('<span class="textdata">' + data[0].pl_hostname + '</span>');
       $('#starmass').append('<span class="textdata">' + data[0].st_mass + '</span>');
       $('#starsize').append('<span class="textdata">' + data[0].st_rad + '</span>');
@@ -365,6 +376,33 @@ var datapost = function(){
     },
     error: function(){
       console.log('JSON not loaded successfully');
+    }
+  });
+};
+
+var planetDataPost = function(){
+  var planetId = $('#planetlist').val();
+  var url = '/systems/'+$('#starlist').val();
+  return $.ajax({
+    url: url,
+    dataType: 'json',
+    success: function(data, status){
+      $('#planetname .textdata').children().remove();
+      $('#orbitlength .textdata').children().remove();
+      $('#distancefromstar .textdata').children().remove();
+      $('#planettemp .textdata').children().remove();
+      $('#planetmass .textdata').children().remove();
+      $('#planetradius .textdata').children().remove();
+      $('#discoverymethod .textdata').children().remove();
+      $('#discoveryyear .textdata').children().remove();
+      $('#planetname').append('<span class="textdata">' + data[planetId].pl_hostname + " " + data[planetId].pl_letter + '</span>');
+      $('#orbitlength').append('<span class="textdata">' + (data[planetId].pl_orbper && data[planetId].pl_orbper.toFixed(2) + " days"|| "N/A" )+ '</span>');
+      $('#distancefromstar').append('<span class="textdata">' + (data[planetId].pl_orbsmax && data[planetId].pl_orbsmax.toFixed(2) + " AU"|| "N/A") + '</span>');
+      $('#planettemp').append('<span class="textdata">' + (data[planetId].pl_eqt && data[planetId].pl_eqt.toFixed(2) + "K"|| "N/A") + '</span>');
+      $('#planetmass').append('<span class="textdata">' + (data[planetId].pl_masse && data[planetId].pl_masse.toFixed(planetId)|| "N/A") + '</span>');
+      $('#planetradius').append('<span class="textdata">' + (data[planetId].pl_rade && data[planetId].pl_rade.toFixed(planetId)|| "N/A") + '</span>');
+      $('#discoverymethod').append('<span class="textdata">' + data[planetId].pl_discmethod + '</span>');
+      $('#discoveryyear').append('<span class="textdata">' + data[planetId].pl_disc + '</span>');
     }
   });
 };
@@ -390,6 +428,9 @@ $(document).ready(function(){
     $('#discoveryyear .textdata').children().remove();
     datapost();
   });
+  $('#planetlist').change(function(){
+    planetDataPost();
+  });
 });
 
 module.exports.datapost = datapost;
@@ -401,5 +442,5 @@ $(function(){
   window.exoViz = new ExoViz();
 });
 
-},{"./ExoViz.js":2}]},{},[1,2,3,4,5,6])
+},{"./ExoViz.js":2}]},{},[1,2,4,3,6,5])
 ;
