@@ -13,40 +13,49 @@ body, html
   height: 100%;
 
 .textdata
-  background-color: white;
   position: absolute;
   border-radius: 5px;
   padding: 0px 10px;
   font-family: palatino;
+  background: rgba(225, 225, 225, 0);
 
 .header
   font-family: helvetica;
 
+.textdata>h2
+  text-decoration: underline;
+
 #starlist
-  left: 20px;
   top: 120px;
-  size: 200%;
-  position: absolute;
-  z-index: 1000;
+  font-size: 16px;
 
 #planetlist
-  left: 20px;
-  top: 395px;
-  size: 200%;
+  top: 400px;
+  font-size: 16px;
+
+#starlist, #planetlist
+  font-family: palatino;
   position: absolute;
   z-index: 1000;
 
 #title
-  left: 20px;
   top: 25px;
 
 #systeminfo
-  left: 20px;
   width: 350px;
   top: 160px;
 
 #planetinfo
-  left: 20px;
-  top: 425px;
+  top: 440px;
   width: 350px;
-  position: absolute;
+
+#title, #systeminfo, #planetinfo, #starlist, #planetlist
+  left: 20px;
+
+#starlist, #planetlist
+  background: rgba(225, 225, 225, .8);
+  width: 150px;
+
+#title, #systeminfo, #planetinfo
+  background: rgba(225, 225, 225, .2);
+  color: #fff;
