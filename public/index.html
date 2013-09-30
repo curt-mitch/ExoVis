@@ -13,16 +13,17 @@
     <script src="js/lib/TrackballControls.js"></script>
     <script src="js/lib/threex.domevent.js"></script>
     <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/jquery.jplayer.min.js"></script>
     <div id="container"></div>
     <div class="textdata" id="title">
-      <h1 class="header">ExoVis - A Visualization of Exoplanetary Systems</h1>
+      <h1 class="header">ExoViz - A Visualization of Exoplanetary Systems</h1>
     </div>
     <form name="starselect">
       <select name="starlist" id="starlist">
-        <option value="24 Sex">24 Sex</option>
         <option value="HAT-P-1">HAT-P-1</option>
         <option value="HD 196885">HD 20196885</option>
         <option value="16 Cyg B">16 Cyg B</option>
+        <option value="24 Sex">24 Sex</option>
         <option value="DH Tau">DH Tau</option>
       </select>
     </form>
@@ -31,7 +32,7 @@
       <ul>
         <li id="starname">Host Star: </li>
         <li id="starmass">Stellar Mass (x Sun): </li>
-        <li id="starsize">Stellar Size (x Sun): </li>
+        <li id="starsize">Stellar Radius (x Sun): </li>
         <li id="startemp">Stellar Temperature: </li>
         <li id="RA">Right Ascension: </li>
         <li id="dec">Declination: </li>
@@ -41,8 +42,8 @@
     </div>
     <form name="planetselect">
       <select name="planetlist" id="planetlist">
-        
       </select>
+    </form>
     <div class="textdata" id="planetinfo">
       <h2 class="header">Planet Information</h2>
       <ul>
@@ -55,6 +56,36 @@
         <li id="discoverymethod">Discovery Method: </li>
         <li id="discoveryyear">Discovery Year: </li>
       </ul>
+    </div>
+    <div id="jquery_jplayer_1"></div>
+    <div id="jp_container_1" class="jp-audio">
+      <div class="jp-type-single">
+        <div class="jp-gui jp-interface">
+          <ul class="jp-controls">
+            <li><a href="bundle.js" class="jp-play">Play</a></li>
+            <li><a href="bundle.js" class="jp-pause">Pause</a></li>
+            <li><a href="bundle.js" class="jp-stop">Stop</a></li>
+            <li><a href="bundle.js" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+            <li><a href="bundle.js" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+            <li><a href="bundle.js" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+          </ul>
+          <div class="jp-progress">
+            <div class="jp-seek-bar">
+              <div class="jp-play-bar"></div>
+            </div>
+          </div>
+          <div class="jp-volume-bar">
+            <div class="jp-volume-time"></div>
+            <div class="jp-duration"></div>
+          </div>
+          <div class="jp-title">
+            <ul>
+              <li>Mass Effect 2 - Galaxy Map Theme</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
     </div>
     <script src="bundle.js"></script>
   </body>

@@ -387,14 +387,14 @@ var planetDataPost = function(){
     url: url,
     dataType: 'json',
     success: function(data, status){
-      $('#planetname .textdata').children().remove();
-      $('#orbitlength .textdata').children().remove();
-      $('#distancefromstar .textdata').children().remove();
-      $('#planettemp .textdata').children().remove();
-      $('#planetmass .textdata').children().remove();
-      $('#planetradius .textdata').children().remove();
-      $('#discoverymethod .textdata').children().remove();
-      $('#discoveryyear .textdata').children().remove();
+      $('#planetname').children().remove();
+      $('#orbitlength').children().remove();
+      $('#distancefromstar').children().remove();
+      $('#planettemp').children().remove();
+      $('#planetmass').children().remove();
+      $('#planetradius').children().remove();
+      $('#discoverymethod').children().remove();
+      $('#discoveryyear').children().remove();
       $('#planetname').append('<span class="textdata">' + data[planetId].pl_hostname + " " + data[planetId].pl_letter + '</span>');
       $('#orbitlength').append('<span class="textdata">' + (data[planetId].pl_orbper && data[planetId].pl_orbper.toFixed(2) + " days"|| "N/A" )+ '</span>');
       $('#distancefromstar').append('<span class="textdata">' + (data[planetId].pl_orbsmax && data[planetId].pl_orbsmax.toFixed(2) + " AU"|| "N/A") + '</span>');
@@ -410,27 +410,37 @@ var planetDataPost = function(){
 $(document).ready(function(){
   datapost();
   $('#starlist').change(function(){
-    $('#starname .textdata').children().remove();
-    $('#starmass .textdata').children().remove();
-    $('#starsize .textdata').children().remove();
-    $('#startemp .textdata').children().remove();
-    $('#RA .textdata').children().remove();
-    $('#dec .textdata').children().remove();
-    $('#distance .textdata').children().remove();
-    $('#planetnum .textdata').children().remove();
-    $('#planetname .textdata').children().remove();
-    $('#orbitlength .textdata').children().remove();
-    $('#distancefromstar .textdata').children().remove();
-    $('#planettemp .textdata').children().remove();
-    $('#planetmass .textdata').children().remove();
-    $('#planetradius .textdata').children().remove();
-    $('#discoverymethod .textdata').children().remove();
-    $('#discoveryyear .textdata').children().remove();
+    $('#starname').children().remove();
+    $('#starmass').children().remove();
+    $('#starsize').children().remove();
+    $('#startemp').children().remove();
+    $('#RA').children().remove();
+    $('#dec').children().remove();
+    $('#distance').children().remove();
+    $('#planetnum').children().remove();
+    $('#planetname').children().remove();
+    $('#orbitlength').children().remove();
+    $('#distancefromstar').children().remove();
+    $('#planettemp').children().remove();
+    $('#planetmass').children().remove();
+    $('#planetradius').children().remove();
+    $('#discoverymethod').children().remove();
+    $('#discoveryyear').children().remove();
     $('#planetlist').children().remove();
     datapost();
   });
   $('#planetlist').change(function(){
     planetDataPost();
+  });
+  $("#jquery_jplayer_1").jPlayer({
+   ready: function () {
+    $(this).jPlayer("setMedia", {
+     m4a: "/music/Mass Effect 2 - Galaxy Map Theme.mp4",
+    })
+    // .jPlayer("play");
+   },
+   swfPath: "/js",
+   supplied: "m4a"
   });
 });
 
