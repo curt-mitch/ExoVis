@@ -445,8 +445,8 @@ $(document).ready(function(){
    ready: function () {
     $(this).jPlayer("setMedia", {
      mp3: "/music/10 - Friends of Friends (Ambient).mp3",
-    })
-    .jPlayer("play");
+    });
+    //.jPlayer("play");
    },
    swfPath: "/js",
    supplied: "mp3"
