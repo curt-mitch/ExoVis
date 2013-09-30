@@ -63,6 +63,7 @@ var planetDataPost = function(){
 $(document).ready(function(){
   datapost();
   $('#starlist').change(function(){
+    window.exoViz.system.fetch($(this).val());
     $('#starname').children().remove();
     $('#starmass').children().remove();
     $('#starsize').children().remove();

@@ -1,8 +1,10 @@
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Body = module.exports = function(options) {
+  this.planetRadius = options.planetRadius;
+  this.planetDistance = options.planetDistance;
   this.scene = options.scene;
-  geometry = new THREE.SphereGeometry(this.planetRadius, this.planetRadius * 10, this.planetRadius * 10);
-  material = new THREE.MeshPhongMaterial({color: 0xAADD00, ambient: 0x1a1a1a});
+  var geometry = new THREE.SphereGeometry(this.planetRadius, this.planetRadius * 10, this.planetRadius * 10);
+  var material = new THREE.MeshPhongMaterial({color: 0xAADD00, ambient: 0x1a1a1a});
   this.mesh = new THREE.Mesh(geometry, material);
 
   this.scene.add(this.mesh);
@@ -15,7 +17,7 @@ Body.prototype.destroy = function() {
 Body.prototype.update = function(time) {
   var p1_angle = time * 0.001;
   var p2_angle = time * 0.0004;
-  this.mesh.position.set(400* Math.cos(p1_angle), 400*Math.sin(p1_angle), 0);
+  this.mesh.position.set(this.planetDistance * 10 * Math.cos(p1_angle), this.planetDistance * 10 * Math.sin(p1_angle), 0);
 };
 
 },{}],2:[function(require,module,exports){
@@ -286,13 +288,10 @@ System.prototype.init = function(data) {
     console.log("planet radius: " + planetRadius);
     console.log("planet distance: " + planetDistance);
     console.log("planet orbital period: " + planetOrbit);
-    // maybe declare geometry and material variables here and pass to 
-    // mesh: this.mesh(geometry, materials) below?
-    planetGeometry = new THREE.SphereGeometry(planetRadius / 2, planetRadius * 10, planetRadius * 10);
-    planetMaterial = new THREE.MeshPhongMaterial({color: 0xff0000});
     this.addPlanet(new Body({
       scene: this.scene,
-      mesh: new THREE.Mesh(planetGeometry, planetMaterial)
+      planetRadius: planetRadius,
+      planetDistance: planetDistance
     }));
     console.log("Body.update: " + Body);
   }
@@ -410,6 +409,7 @@ var planetDataPost = function(){
 $(document).ready(function(){
   datapost();
   $('#starlist').change(function(){
+    window.exoViz.system.fetch($(this).val());
     $('#starname').children().remove();
     $('#starmass').children().remove();
     $('#starsize').children().remove();

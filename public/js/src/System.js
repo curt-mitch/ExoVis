@@ -123,13 +123,10 @@ System.prototype.init = function(data) {
     console.log("planet radius: " + planetRadius);
     console.log("planet distance: " + planetDistance);
     console.log("planet orbital period: " + planetOrbit);
-    // maybe declare geometry and material variables here and pass to 
-    // mesh: this.mesh(geometry, materials) below?
-    planetGeometry = new THREE.SphereGeometry(planetRadius / 2, planetRadius * 10, planetRadius * 10);
-    planetMaterial = new THREE.MeshPhongMaterial({color: 0xff0000});
     this.addPlanet(new Body({
       scene: this.scene,
-      mesh: new THREE.Mesh(planetGeometry, planetMaterial)
+      planetRadius: planetRadius,
+      planetDistance: planetDistance
     }));
     console.log("Body.update: " + Body);
   }
