@@ -9,7 +9,7 @@ var ExoViz = module.exports = function() {
 
   // Camera
   this.camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 1, 10000);
-  this.camera.position.z = 1500;
+  this.camera.position.z = 1000;
 
   // Controls
   this.controls = new THREE.TrackballControls(this.camera);

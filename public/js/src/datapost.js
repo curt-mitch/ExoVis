@@ -11,8 +11,8 @@ var datapost = function(){
           .text(data[key].pl_hostname + " " + data[key].pl_letter));
       };
       $('#starname').append('<span class="textdata">' + data[0].pl_hostname + '</span>');
-      $('#starmass').append('<span class="textdata">' + data[0].st_mass + '</span>');
-      $('#starsize').append('<span class="textdata">' + data[0].st_rad + '</span>');
+      $('#starmass').append('<span class="textdata">' + (data[0].st_mass || "N/A") + '</span>');
+      $('#starsize').append('<span class="textdata">' + (data[0].st_rad || "N/A") + '</span>');
       $('#startemp').append('<span class="textdata">' + (data[0].st_teff && data[0].st_teff + "K"|| "N/A") + '</span>');
       $('#RA').append('<span class="textdata">' + data[0].ra.toFixed(2) + "º" + '</span>');
       $('#dec').append('<span class="textdata">' + data[0].dec.toFixed(2) + "º" + '</span>');
@@ -89,12 +89,12 @@ $(document).ready(function(){
   $("#jquery_jplayer_1").jPlayer({
    ready: function () {
     $(this).jPlayer("setMedia", {
-     m4a: "/music/Mass Effect 2 - Galaxy Map Theme.mp4",
+     mp3: "/music/10 - Friends of Friends (Ambient).mp3",
     })
-    // .jPlayer("play");
+    .jPlayer("play");
    },
    swfPath: "/js",
-   supplied: "m4a"
+   supplied: "mp3"
   });
 });
 
