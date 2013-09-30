@@ -12,4 +12,3 @@ body,html{background-color:#fff;margin:0;padding:0;overflow:hidden;width:100%;he
 #title,#systeminfo,#planetinfo,#starlist,#planetlist{left:20px}
 #starlist,#planetlist{background:rgba(225,225,225,0.8);width:150px}
 #title,#systeminfo,#planetinfo{background:rgba(225,225,225,0.2);color:#fff}
-#jp_container_1 #jquery_container_1 #jp_poster_0{width:100px;height:100px;top:600px;left:20px;z-index:1000}
