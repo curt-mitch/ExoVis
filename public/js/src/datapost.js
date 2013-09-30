@@ -79,6 +79,7 @@ $(document).ready(function(){
     $('#planetradius .textdata').children().remove();
     $('#discoverymethod .textdata').children().remove();
     $('#discoveryyear .textdata').children().remove();
+    $('#planetlist').children().remove();
     datapost();
   });
   $('#planetlist').change(function(){

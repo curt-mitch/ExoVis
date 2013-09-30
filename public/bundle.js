@@ -426,6 +426,7 @@ $(document).ready(function(){
     $('#planetradius .textdata').children().remove();
     $('#discoverymethod .textdata').children().remove();
     $('#discoveryyear .textdata').children().remove();
+    $('#planetlist').children().remove();
     datapost();
   });
   $('#planetlist').change(function(){
@@ -442,5 +443,5 @@ $(function(){
   window.exoViz = new ExoViz();
 });
 
-},{"./ExoViz.js":2}]},{},[1,2,4,3,6,5])
+},{"./ExoViz.js":2}]},{},[1,2,3,4,5,6])
 ;
