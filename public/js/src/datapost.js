@@ -5,6 +5,12 @@ var datapost = function(){
     url: url,
     dataType: 'json',
     success: function(data, status){
+      for(var key in data){
+        $('#planetlist')
+          .append($('<option></option>')
+          .attr('value',data[key].pl_hostname + " " + data[key].pl_letter)
+          .text(data[key].pl_hostname + " " + data[key].pl_letter));
+      };
       $('#starname').append('<span class="textdata">' + data[0].pl_hostname + '</span>');
       $('#starmass').append('<span class="textdata">' + data[0].st_mass + '</span>');
       $('#starsize').append('<span class="textdata">' + data[0].st_rad + '</span>');

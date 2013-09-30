@@ -3,6 +3,7 @@ body,html{background-color:#fff;margin:0;padding:0;overflow:hidden;width:100%;he
 .textdata{background-color:#fff;position:absolute;border-radius:5px;padding:0 10px;font-family:palatino}
 .header{font-family:helvetica}
 #starlist{left:20px;top:120px;size:200%;position:absolute;z-index:1000}
+#planetlist{left:20px;top:395px;size:200%;position:absolute;z-index:1000}
 #title{left:20px;top:25px}
 #systeminfo{left:20px;width:350px;top:160px}
-#planetinfo{left:20px;top:405px;width:350px;position:absolute}
+#planetinfo{left:20px;top:425px;width:350px;position:absolute}
