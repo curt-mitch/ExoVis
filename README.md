@@ -3,6 +3,10 @@ ExoVis
 
 Data and system visualization for planets orbiting other stars
 
+##Structure
+
+
+
 
 ## Tech Stack
 
@@ -30,16 +34,16 @@ Data and system visualization for planets orbiting other stars
 
 [Stylus](http://learnboost.github.io/stylus/)
 
+### Screenshot
+
+<img src="http://curtmitch.files.wordpress.com/2013/10/exovis-screenshot.png" alt="ExoVis screenshot" style="width: 400px;"/>
+
 
 ## To-Do List
 Implement star spectrum object
 
+Add surface to star object
+
 Add Handlebars templating for text data elements
 
 Add background music player
-
-Add surface to star object
-
-Highlight planet currently represented in text data
-
-Add corona to star object using gyroscope.three.js
